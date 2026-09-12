@@ -602,6 +602,19 @@ document.getElementById("settingsForm").addEventListener("submit",async e=>{
   const result=existing?await db.from("site_settings").update(payload).eq("id",existing.id):await db.from("site_settings").insert(payload);
   if(result.error){toast(result.error.message);return}toast("Settings saved ✅");
 });
+  document.getElementById("productName").addEventListener("input", function () {
+
+    const name = this.value.trim();
+
+    const slug = name
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+
+    document.getElementById("productSlug").value = slug;
+});
 </script>
 </body>
 </html>
