@@ -339,20 +339,165 @@ button{cursor:pointer}
   </div>
 </div>
 
-<!-- BANNER MODAL -->
-<div class="modal" id="bannerModal"><div class="modal-box">
-  <div class="modal-header"><h3 id="bannerModalTitle">Banner যোগ করুন</h3><button class="close" onclick="closeModal('bannerModal')">×</button></div>
-  <form id="bannerForm">
-    <input type="hidden" id="bannerId">
-    <div class="form-group"><label>Title</label><input id="bannerTitle" required></div>
-    <div class="form-group"><label>Subtitle</label><input id="bannerSubtitle"></div>
-    <div class="form-group"><label>Image URL</label><input id="bannerImage"></div>
-    <div class="form-group"><label>Button Text</label><input id="bannerButtonText" value="এখনই কিনুন"></div>
-    <div class="form-group"><label>Button Link</label><input id="bannerButtonLink" value="#products"></div>
-    <div class="form-group"><label><input type="checkbox" id="bannerActive" checked> Active</label></div>
-    <div class="modal-footer"><button type="button" class="btn btn-secondary" onclick="closeModal('bannerModal')">Cancel</button><button class="btn btn-primary">Save Banner</button></div>
-  </form>
-</div></div>
+<!-- ==================== BANNER MODAL ==================== -->
+
+<div class="modal" id="bannerModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h3 id="bannerModalTitle">
+        🖼️ নতুন Banner যোগ করুন
+      </h3>
+
+      <button
+        class="close"
+        type="button"
+        onclick="closeModal('bannerModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="bannerForm">
+
+      <input type="hidden" id="bannerId">
+
+
+      <!-- Banner Image -->
+      <div class="form-group">
+
+        <label>🖼️ Banner ছবি *</label>
+
+        <div
+          style="
+            border:2px dashed #cbd5e1;
+            border-radius:12px;
+            padding:18px;
+            background:#f8fafc;
+            text-align:center;
+          "
+        >
+
+          <input
+            type="file"
+            id="bannerImageFile"
+            accept="image/*"
+          >
+
+          <div
+            id="bannerImagePreview"
+            style="
+              display:none;
+              margin-top:15px;
+            "
+          >
+
+            <img
+              id="bannerPreviewImg"
+              src=""
+              alt="Banner Preview"
+              style="
+                width:100%;
+                max-height:180px;
+                object-fit:cover;
+                border-radius:10px;
+                border:1px solid #ddd;
+              "
+            >
+
+          </div>
+
+          <small
+            style="
+              display:block;
+              margin-top:8px;
+              color:#64748b;
+            "
+          >
+            JPG, PNG অথবা WEBP ছবি Upload করুন
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <!-- Target Link -->
+      <div class="form-group">
+
+        <label>🔗 Target Link (URL)</label>
+
+        <input
+          type="text"
+          id="bannerButtonLink"
+          placeholder="যেমন: #products অথবা /product.html"
+        >
+
+      </div>
+
+
+      <!-- Serial -->
+      <div class="form-group">
+
+        <label>🔢 সিরিয়াল নম্বর</label>
+
+        <input
+          type="number"
+          id="bannerSort"
+          value="5"
+          min="1"
+        >
+
+      </div>
+
+
+      <!-- Active -->
+      <div class="form-group">
+
+        <label>
+
+          <input
+            type="checkbox"
+            id="bannerActive"
+            checked
+          >
+
+          Active
+
+        </label>
+
+      </div>
+
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModal('bannerModal')"
+        >
+          বাতিল
+        </button>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          💾 Banner সংরক্ষণ
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
 
 <div class="toast" id="toast"></div>
 
