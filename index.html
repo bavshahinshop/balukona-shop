@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Balukona Shop - অনলাইন শপ</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -108,55 +109,130 @@ a{
     cursor:pointer;
 }
 
-/* HERO */
-.hero{
+/* HERO / BANNER SLIDER */
+.hero-slider{
     width:94%;
     max-width:1400px;
     margin:22px auto;
-    height:410px;
+    aspect-ratio:1111 / 513;
+    min-height:260px;
+    max-height:560px;
     border-radius:16px;
     overflow:hidden;
-    background:linear-gradient(100deg,#dcefdc,#fff4df);
+    position:relative;
+    background:#f2f2f2;
+    box-shadow:0 3px 14px rgba(0,0,0,.08);
+}
+
+.banner-slide{
+    position:absolute;
+    inset:0;
+    display:none;
+    width:100%;
+    height:100%;
+}
+
+.banner-slide.active{
+    display:block;
+    animation:bannerFade .55s ease;
+}
+
+.banner-image{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+}
+
+.banner-image-link{
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+.banner-placeholder,
+.banner-loading{
+    width:100%;
+    height:100%;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:45px 7%;
-}
-
-.hero-content{
-    max-width:520px;
-}
-
-.hero-content small{
-    color:#3c9d3b;
-    font-weight:bold;
-    font-size:17px;
-}
-
-.hero-content h1{
-    font-size:48px;
-    line-height:1.2;
-    margin:15px 0;
-    color:#183a20;
-}
-
-.hero-content p{
+    justify-content:center;
+    color:#666;
     font-size:18px;
-    color:#555;
-    margin-bottom:25px;
 }
 
-.shop-btn{
-    display:inline-block;
+.banner-dots{
+    position:absolute;
+    left:50%;
+    bottom:12px;
+    transform:translateX(-50%);
+    display:flex;
+    gap:7px;
+    z-index:20;
+    padding:5px 8px;
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+}
+
+.banner-dot{
+    width:8px;
+    height:8px;
+    border:0;
+    border-radius:50%;
+    background:#999;
+    padding:0;
+    cursor:pointer;
+}
+
+.banner-dot.active{
     background:#3c9d3b;
-    color:#fff;
-    padding:13px 30px;
-    border-radius:8px;
-    font-weight:bold;
+    width:24px;
+    border-radius:10px;
 }
 
-.hero-model{
-    font-size:120px;
+.banner-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border:1px solid #ddd;
+    border-radius:50%;
+    background:rgba(255,255,255,.9);
+    color:#333;
+    box-shadow:0 2px 10px rgba(0,0,0,.12);
+    z-index:20;
+    cursor:pointer;
+    font-size:24px;
+    line-height:1;
+}
+
+.banner-prev{left:12px}
+.banner-next{right:12px}
+
+@keyframes bannerFade{
+    from{opacity:.25}
+    to{opacity:1}
+}
+
+@media(max-width:700px){
+    .hero-slider{
+        width:94%;
+        aspect-ratio:1111 / 513;
+        min-height:160px;
+        border-radius:10px;
+    }
+
+    .banner-arrow{
+        width:32px;
+        height:32px;
+        font-size:20px;
+    }
+
+    .banner-dots{
+        bottom:7px;
+    }
 }
 
 /* SECTION */
@@ -529,30 +605,16 @@ footer p{
 </header>
 
 
-<!-- HERO -->
-<section class="hero">
-
-    <div class="hero-content">
-        <small>✨ নতুন কালেকশন এসেছে</small>
-
-        <h1>
-            আপনার পছন্দের<br>
-            পণ্য এক জায়গায়
-        </h1>
-
-        <p>
-            মানসম্মত পণ্য, আকর্ষণীয় দাম এবং দ্রুত ডেলিভারি।
-        </p>
-
-        <a href="#products" class="shop-btn">
-            🛍️ এখনই শপিং করুন
-        </a>
+<!-- HERO / BANNER SLIDER -->
+<section class="hero-slider" id="bannerSlider">
+    <div class="banner-loading" id="bannerLoading">
+        Banner লোড হচ্ছে...
     </div>
 
-    <div class="hero-model">
-        👗
-    </div>
+    <button class="banner-arrow banner-prev" id="bannerPrev" type="button" aria-label="Previous Banner">‹</button>
+    <button class="banner-arrow banner-next" id="bannerNext" type="button" aria-label="Next Banner">›</button>
 
+    <div class="banner-dots" id="bannerDots"></div>
 </section>
 
 
@@ -776,6 +838,149 @@ footer p{
 
 
 <script>
+/* =========================
+   SUPABASE
+   ========================= */
+const SUPABASE_URL = "https://dxsqulngttrkcizylmnv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
+/* =========================
+   BANNER AUTO SLIDER
+   ========================= */
+let shopBanners = [];
+let bannerIndex = 0;
+let bannerTimer = null;
+
+function bannerEscape(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function renderBanners(){
+    const slider = document.getElementById("bannerSlider");
+    const loading = document.getElementById("bannerLoading");
+    const dots = document.getElementById("bannerDots");
+
+    if(!slider) return;
+
+    slider.querySelectorAll(".banner-slide").forEach(el => el.remove());
+    dots.innerHTML = "";
+
+    if(!shopBanners.length){
+        loading.textContent = "কোনো Active Banner নেই";
+        loading.style.display = "flex";
+        document.getElementById("bannerPrev").style.display = "none";
+        document.getElementById("bannerNext").style.display = "none";
+        return;
+    }
+
+    loading.style.display = "none";
+
+    const multiple = shopBanners.length > 1;
+    document.getElementById("bannerPrev").style.display = multiple ? "block" : "none";
+    document.getElementById("bannerNext").style.display = multiple ? "block" : "none";
+    dots.style.display = multiple ? "flex" : "none";
+
+    shopBanners.forEach((banner, index) => {
+        const slide = document.createElement("div");
+        slide.className = "banner-slide" + (index === 0 ? " active" : "");
+
+        const image = bannerEscape(banner.image_url || "");
+        const link = bannerEscape(banner.button_link || "#products");
+        const title = bannerEscape(banner.title || "Balukona Shop Banner");
+
+        slide.innerHTML = image
+            ? `<a class="banner-image-link" href="${link}">
+                   <img class="banner-image" src="${image}" alt="${title}" loading="${index === 0 ? "eager" : "lazy"}">
+               </a>`
+            : `<div class="banner-placeholder">🖼️ Banner Image নেই</div>`;
+
+        slider.insertBefore(slide, dots);
+
+        if(multiple){
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "banner-dot" + (index === 0 ? " active" : "");
+            dot.setAttribute("aria-label", "Banner " + (index + 1));
+            dot.addEventListener("click", () => showBanner(index));
+            dots.appendChild(dot);
+        }
+    });
+
+    startBannerAutoSlide();
+}
+
+function showBanner(index){
+    if(!shopBanners.length) return;
+
+    bannerIndex = (index + shopBanners.length) % shopBanners.length;
+
+    document.querySelectorAll(".banner-slide").forEach((slide, i) => {
+        slide.classList.toggle("active", i === bannerIndex);
+    });
+
+    document.querySelectorAll(".banner-dot").forEach((dot, i) => {
+        dot.classList.toggle("active", i === bannerIndex);
+    });
+
+    startBannerAutoSlide();
+}
+
+function nextBanner(){
+    showBanner(bannerIndex + 1);
+}
+
+function prevBanner(){
+    showBanner(bannerIndex - 1);
+}
+
+function startBannerAutoSlide(){
+    clearInterval(bannerTimer);
+
+    if(shopBanners.length > 1){
+        bannerTimer = setInterval(nextBanner, 5000);
+    }
+}
+
+document.getElementById("bannerNext").addEventListener("click", nextBanner);
+document.getElementById("bannerPrev").addEventListener("click", prevBanner);
+
+async function loadShopBanners(){
+    const loading = document.getElementById("bannerLoading");
+
+    try{
+        const { data, error } = await db
+            .from("banners")
+            .select("id,title,subtitle,image_url,button_text,button_link,is_active,created_at")
+            .eq("is_active", true)
+            .order("created_at", { ascending: false });
+
+        if(error) throw error;
+
+        shopBanners = data || [];
+        bannerIndex = 0;
+        renderBanners();
+
+    }catch(error){
+        console.error("Banner load error:", error);
+        loading.textContent = "Banner লোড করা যায়নি";
+        loading.style.display = "flex";
+    }
+}
+
+loadShopBanners();
+
+
+/* =========================
+   ORDER / WHATSAPP
+   ========================= */
 function orderProduct(productName){
 
     const phone = "8801XXXXXXXXX";
