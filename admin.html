@@ -602,18 +602,29 @@ document.getElementById("settingsForm").addEventListener("submit",async e=>{
   const result=existing?await db.from("site_settings").update(payload).eq("id",existing.id):await db.from("site_settings").insert(payload);
   if(result.error){toast(result.error.message);return}toast("Settings saved ✅");
 });
-  document.getElementById("productName").addEventListener("input", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const name = this.value.trim();
+    const productName = document.getElementById("productName");
+    const productSlug = document.getElementById("productSlug");
 
-    const slug = name
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "");
+    if (productName && productSlug) {
 
-    document.getElementById("productSlug").value = slug;
+        productName.addEventListener("input", function () {
+
+            const name = productName.value.trim();
+
+            const slug = name
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-")
+                .replace(/^-|-$/g, "");
+
+            productSlug.value = slug;
+        });
+
+    }
+
 });
 </script>
 </body>
