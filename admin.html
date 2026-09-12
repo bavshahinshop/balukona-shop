@@ -4192,7 +4192,99 @@ document
 
 });
 
+/* ======================================================
+   AUTO SLUG
+   Product Name লিখলেই Slug অটোমেটিক তৈরি হবে
+====================================================== */
 
+const productNameInput =
+  document.getElementById("productName");
+
+const productSlugInput =
+  document.getElementById("productSlug");
+
+
+function makeAutoSlug(text){
+
+  return text
+    .trim()
+    .toLowerCase()
+
+    // বাংলা, ইংরেজি, সংখ্যা এবং space রাখবে
+    .replace(/[^\u0980-\u09FFa-z0-9\s-]/g, "")
+
+    // একাধিক space → একটি -
+    .replace(/\s+/g, "-")
+
+    // একাধিক - → একটি -
+    .replace(/-+/g, "-")
+
+    // শুরু/শেষের -
+    .replace(/^-+|-+$/g, "");
+}
+
+
+/* Product Name লিখলেই Slug তৈরি হবে */
+
+productNameInput.addEventListener("input", function(){
+
+  productSlugInput.value =
+    makeAutoSlug(this.value);
+
+});
+
+
+/* Product Name থেকে Slug তৈরি করার function
+   অন্য জায়গা থেকেও ব্যবহার করা যাবে */
+
+function updateProductSlug(){
+
+  productSlugInput.value =
+    makeAutoSlug(
+      productNameInput.value
+    );
+
+}
+
+
+/* নতুন Product Modal খুললে
+   Name থাকলে Slug তৈরি করবে */
+
+const oldOpenProductModal =
+  window.openProductModal;
+
+window.openProductModal =
+  async function(){
+
+    await oldOpenProductModal();
+
+    updateProductSlug();
+
+  };
+
+
+/* Edit Product-এর সময় Name অনুযায়ী Slug
+   ফাঁকা থাকলে অটোমেটিক তৈরি করবে */
+
+const oldEditProduct =
+  window.editProduct;
+
+window.editProduct =
+  async function(id){
+
+    await oldEditProduct(id);
+
+    if(
+      productSlugInput &&
+      productNameInput &&
+      !productSlugInput.value.trim()
+    ){
+
+      updateProductSlug();
+
+    }
+
+  };
 </script>
 
 </body>
