@@ -33,7 +33,7 @@ button{cursor:pointer}
 .actions{display:flex;gap:6px;flex-wrap:wrap}.empty{text-align:center;padding:35px;color:#777}.modal{display:none;position:fixed;inset:0;background:#0009;z-index:100;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}
 .modal-box{background:#fff;width:100%;max-width:650px;max-height:92vh;overflow:auto;border-radius:15px;padding:25px}.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.close{background:none;border:0;font-size:25px}.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.status-select{padding:7px;border:1px solid #ddd;border-radius:7px}.toast{position:fixed;right:25px;bottom:25px;background:#10231b;color:#fff;padding:13px 18px;border-radius:9px;display:none;z-index:200;box-shadow:0 8px 25px #0003}
-.stat-row{display:flex;gap:12px;flex-wrap:wrap}.stat-box{padding:15px;background:#f8faf9;border-radius:10px;min-width:150px}.muted{color:#667085;font-size:13px}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap}.stat-box{padding:15px;background:#f8faf9;border-radius:10px;min-width:150px}.muted{color:#667085;font-size:13px}.upload-preview img{width:100px;height:100px;object-fit:cover;border-radius:8px;border:1px solid #ddd}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){.sidebar{width:210px}.main{margin-left:210px}}
 @media(max-width:650px){.sidebar{position:relative;width:100%;height:auto}.logout{position:relative;left:auto;right:auto;bottom:auto;margin-top:15px}.main{margin-left:0}.topbar{position:relative}.content{padding:15px}.cards{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
@@ -146,8 +146,19 @@ button{cursor:pointer}
     <div class="form-group"><label>Product Name</label><input id="productName" required></div>
     <div class="form-group"><label>Slug</label><input id="productSlug"></div>
     <div class="form-group"><label>Category</label><select id="productCategory"><option value="">Category নির্বাচন করুন</option></select></div>
-    <div class="form-group"><label>ছবির URL</label><input id="productImage" placeholder="https://..."></div>
-    <div class="form-group"><label>Gallery Images</label><textarea id="productGallery" rows="3" placeholder="প্রতি লাইনে একটি image URL"></textarea></div>
+    <div class="form-group">
+      <label>প্রধান ছবি</label>
+      <input type="file" id="productImageFile" accept="image/*">
+      <input type="hidden" id="productImage">
+      <div id="productImagePreview" style="margin-top:10px"></div>
+      <div class="muted" style="margin-top:6px">ছবি নির্বাচন করুন → Save Product চাপুন</div>
+    </div>
+    <div class="form-group">
+      <label>Gallery Images (একাধিক ছবি)</label>
+      <input type="file" id="productGalleryFiles" accept="image/*" multiple>
+      <textarea id="productGallery" rows="3" placeholder="অথবা প্রতি লাইনে একটি image URL"></textarea>
+      <div id="productGalleryPreview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"></div>
+    </div>
     <div class="form-group"><label>Description</label><textarea id="productDescription" rows="4"></textarea></div>
     <div class="grid-2">
       <div class="form-group"><label>পুরাতন দাম</label><input type="number" id="productRegularPrice" min="0"></div>
@@ -385,6 +396,11 @@ function resetProductForm(){
   document.getElementById("productForm").reset();
   document.getElementById("productId").value="";
   document.getElementById("productModalTitle").textContent="Product যোগ করুন";
+  document.getElementById("productImage").value="";
+  document.getElementById("productImageFile").value="";
+  document.getElementById("productGalleryFiles").value="";
+  document.getElementById("productImagePreview").innerHTML="";
+  document.getElementById("productGalleryPreview").innerHTML="";
   document.getElementById("productActive").checked=true;
   document.getElementById("productDiscount").value=0;
   document.getElementById("productStock").value=0;
@@ -395,6 +411,36 @@ async function openProductModal(){
   await loadCategoryOptions();
   document.getElementById("productModal").classList.add("show");
 }
+
+async function uploadToStorage(file, folder="products") {
+  if (!file) return null;
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await db.storage.from("product-images").upload(path, file, {
+    cacheControl: "3600", upsert: false, contentType: file.type || "image/jpeg"
+  });
+  if (error) throw error;
+  const { data } = db.storage.from("product-images").getPublicUrl(path);
+  return data.publicUrl;
+}
+function showProductImagePreview(url){
+  const box=document.getElementById("productImagePreview");
+  box.innerHTML=url ? `<div class="upload-preview"><img src="${escapeHtml(url)}" alt="Product"></div>` : "";
+}
+document.getElementById("productImageFile").addEventListener("change",function(){
+  const file=this.files[0]; if(!file)return;
+  if(file.size>5*1024*1024){toast("প্রধান ছবির সাইজ 5MB-এর মধ্যে রাখুন");this.value="";return;}
+  showProductImagePreview(URL.createObjectURL(file));
+});
+document.getElementById("productGalleryFiles").addEventListener("change",function(){
+  const box=document.getElementById("productGalleryPreview"); box.innerHTML="";
+  Array.from(this.files).forEach(file=>{
+    if(file.size>5*1024*1024){toast(`Gallery ছবির সাইজ 5MB-এর বেশি: ${file.name}`);return;}
+    const img=document.createElement("img"); img.src=URL.createObjectURL(file);
+    img.style.cssText="width:75px;height:75px;object-fit:cover;border-radius:7px;border:1px solid #ddd"; box.appendChild(img);
+  });
+}
+);
 
 async function editProduct(id){
   const p=products.find(x=>String(x.id)===String(id));
@@ -407,6 +453,7 @@ async function editProduct(id){
   document.getElementById("productSlug").value=p.slug||"";
   document.getElementById("productCategory").value=p.category_id||"";
   document.getElementById("productImage").value=p.image_url||"";
+  showProductImagePreview(p.image_url||"");
   document.getElementById("productGallery").value=arrayToText(parseJsonArray(p.gallery));
   document.getElementById("productDescription").value=p.description||"";
   document.getElementById("productRegularPrice").value=p.regular_price??"";
@@ -425,12 +472,22 @@ document.getElementById("productForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const id=document.getElementById("productId").value;
   const name=document.getElementById("productName").value.trim();
-  const payload={
+  try {
+    const mainFile=document.getElementById("productImageFile").files[0];
+    let imageUrl=document.getElementById("productImage").value.trim()||null;
+    if(mainFile) imageUrl=await uploadToStorage(mainFile,"products");
+    let gallery=textToArray(document.getElementById("productGallery").value);
+    const galleryFiles=Array.from(document.getElementById("productGalleryFiles").files);
+    if(galleryFiles.length){
+      const uploaded=await Promise.all(galleryFiles.map(file=>uploadToStorage(file,"gallery")));
+      gallery=[...gallery,...uploaded.filter(Boolean)];
+    }
+    const payload={
     name,
     slug:document.getElementById("productSlug").value.trim()||slugify(name),
     category_id:document.getElementById("productCategory").value||null,
-    image_url:document.getElementById("productImage").value.trim()||null,
-    gallery:textToArray(document.getElementById("productGallery").value),
+    image_url:imageUrl,
+    gallery:gallery,
     description:document.getElementById("productDescription").value.trim()||null,
     regular_price:document.getElementById("productRegularPrice").value===""?null:Number(document.getElementById("productRegularPrice").value),
     sale_price:Number(document.getElementById("productSalePrice").value),
@@ -442,12 +499,15 @@ document.getElementById("productForm").addEventListener("submit",async e=>{
     is_trending:document.getElementById("productTrending").checked,
     is_active:document.getElementById("productActive").checked
   };
-  let result;
-  if(id)result=await db.from("products").update(payload).eq("id",id);
-  else result=await db.from("products").insert(payload);
-  if(result.error){toast(result.error.message);return}
-  closeModal("productModal");toast(id?"Product আপডেট হয়েছে ✅":"Product যোগ হয়েছে ✅");
-  await loadProducts();await loadDashboard();
+    let result;
+    if(id)result=await db.from("products").update(payload).eq("id",id);
+    else result=await db.from("products").insert(payload);
+    if(result.error){toast(result.error.message);return}
+    closeModal("productModal");toast(id?"Product আপডেট হয়েছে ✅":"Product যোগ হয়েছে ✅");
+    await loadProducts();await loadDashboard();
+  } catch(err) {
+    toast("ছবি Upload হয়নি: " + (err.message || err));
+  }
 });
 
 async function toggleProduct(id,current){
@@ -601,30 +661,6 @@ document.getElementById("settingsForm").addEventListener("submit",async e=>{
   const payload={shop_name:document.getElementById("shopName").value.trim(),logo_url:document.getElementById("logoUrl").value.trim()||null,phone:document.getElementById("shopPhone").value.trim()||null,whatsapp:document.getElementById("shopWhatsapp").value.trim()||null,email:document.getElementById("shopEmail").value.trim()||null,address:document.getElementById("shopAddress").value.trim()||null};
   const result=existing?await db.from("site_settings").update(payload).eq("id",existing.id):await db.from("site_settings").insert(payload);
   if(result.error){toast(result.error.message);return}toast("Settings saved ✅");
-});
-document.addEventListener("DOMContentLoaded", function () {
-
-    const productName = document.getElementById("productName");
-    const productSlug = document.getElementById("productSlug");
-
-    if (productName && productSlug) {
-
-        productName.addEventListener("input", function () {
-
-            const name = productName.value.trim();
-
-            const slug = name
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, "")
-                .replace(/\s+/g, "-")
-                .replace(/-+/g, "-")
-                .replace(/^-|-$/g, "");
-
-            productSlug.value = slug;
-        });
-
-    }
-
 });
 </script>
 </body>
