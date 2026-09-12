@@ -1,1 +1,2069 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balukona Shop - Admin Panel</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+}
+
+body{
+  background:#f5f7fb;
+  color:#172033;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#008f5a,#00b873);
+  padding:20px;
+}
+
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:35px;
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.18);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.logo h1{
+  font-size:28px;
+  color:#008f5a;
+}
+
+.logo p{
+  color:#777;
+  margin-top:6px;
+}
+
+.form-group{
+  margin-bottom:16px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #ddd;
+  border-radius:9px;
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:#00a968;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:11px 18px;
+  font-weight:600;
+}
+
+.btn-primary{
+  background:#009b63;
+  color:white;
+}
+
+.btn-primary:hover{
+  background:#007d50;
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:white;
+}
+
+.btn-secondary{
+  background:#e9edf2;
+  color:#222;
+}
+
+.login-btn{
+  width:100%;
+  padding:13px;
+  margin-top:5px;
+}
+
+.error{
+  background:#ffe5e5;
+  color:#b00020;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:15px;
+  display:none;
+}
+
+.app{
+  display:none;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:250px;
+  background:#10231b;
+  color:white;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  padding:20px 15px;
+  z-index:10;
+}
+
+.sidebar-logo{
+  padding:10px;
+  margin-bottom:25px;
+}
+
+.sidebar-logo h2{
+  color:#39d98a;
+}
+
+.sidebar-logo small{
+  color:#9aa9a1;
+}
+
+.menu button{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:transparent;
+  color:#dbe5df;
+  border:0;
+  padding:13px 14px;
+  border-radius:8px;
+  margin-bottom:5px;
+}
+
+.menu button:hover,
+.menu button.active{
+  background:#1d4a37;
+  color:#55e69b;
+}
+
+.logout{
+  position:absolute;
+  bottom:20px;
+  left:15px;
+  right:15px;
+}
+
+.logout button{
+  width:100%;
+}
+
+.main{
+  margin-left:250px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:white;
+  border-bottom:1px solid #e6e8eb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.topbar h2{
+  font-size:21px;
+}
+
+.user-info{
+  color:#667085;
+  font-size:14px;
+}
+
+.content{
+  padding:28px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:28px;
+}
+
+.card{
+  background:white;
+  border-radius:14px;
+  padding:22px;
+  border:1px solid #e8eaed;
+}
+
+.card-title{
+  color:#667085;
+  font-size:14px;
+}
+
+.card-number{
+  font-size:30px;
+  font-weight:bold;
+  margin-top:8px;
+  color:#008f5a;
+}
+
+.panel{
+  background:white;
+  border:1px solid #e8eaed;
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:22px;
+}
+
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  gap:10px;
+}
+
+.panel-header h3{
+  font-size:19px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  text-align:left;
+  padding:13px 10px;
+  border-bottom:1px solid #eee;
+  white-space:nowrap;
+}
+
+th{
+  background:#f8faf9;
+  font-size:14px;
+}
+
+td{
+  font-size:14px;
+}
+
+.thumb{
+  width:55px;
+  height:55px;
+  object-fit:cover;
+  border-radius:7px;
+  background:#eee;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  background:#e4f8ed;
+  color:#00804f;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#777;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:15px;
+  padding:25px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.close{
+  background:none;
+  border:0;
+  font-size:25px;
+}
+
+.modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  background:#10231b;
+  color:white;
+  padding:13px 18px;
+  border-radius:9px;
+  display:none;
+  z-index:200;
+}
+
+@media(max-width:900px){
+  .sidebar{
+    width:210px;
+  }
+
+  .main{
+    margin-left:210px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+  }
+
+  .logout{
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    margin-top:15px;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    position:relative;
+  }
+
+  .content{
+    padding:15px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-page" id="loginPage">
+  <div class="login-box">
+
+    <div class="logo">
+      <h1>🛍️ Balukona Shop</h1>
+      <p>Admin Panel</p>
+    </div>
+
+    <div class="error" id="loginError"></div>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label>ইমেইল</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="আপনার ইমেইল"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label>পাসওয়ার্ড</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="পাসওয়ার্ড"
+          required
+        >
+      </div>
+
+      <button class="btn btn-primary login-btn" type="submit">
+        Login
+      </button>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- ADMIN APP -->
+<div class="app" id="app">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <h2>Balukona Shop</h2>
+      <small>Administration</small>
+    </div>
+
+    <div class="menu">
+
+      <button class="active" data-section="dashboard">
+        📊 Dashboard
+      </button>
+
+      <button data-section="products">
+        📦 Products
+      </button>
+
+      <button data-section="categories">
+        🗂️ Categories
+      </button>
+
+      <button data-section="orders">
+        🛒 Orders
+      </button>
+
+      <button data-section="banners">
+        🖼️ Banners
+      </button>
+
+      <button data-section="settings">
+        ⚙️ Settings
+      </button>
+
+    </div>
+
+    <div class="logout">
+      <button class="btn btn-danger" id="logoutBtn">
+        🚪 Logout
+      </button>
+    </div>
+
+  </aside>
+
+
+  <main class="main">
+
+    <div class="topbar">
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="user-info" id="userEmail"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section class="section active" id="dashboard">
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-title">মোট Product</div>
+            <div class="card-number" id="productCount">0</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">মোট Category</div>
+            <div class="card-number" id="categoryCount">0</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">মোট Order</div>
+            <div class="card-number" id="orderCount">0</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">মোট Banner</div>
+            <div class="card-number" id="bannerCount">0</div>
+          </div>
+
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>স্বাগতম 👋</h3>
+          </div>
+
+          <p>
+            Balukona Shop-এর Admin Panel থেকে আপনার
+            Product, Category, Order, Banner এবং Shop Settings
+            পরিচালনা করতে পারবেন।
+          </p>
+        </div>
+
+      </section>
+
+
+      <!-- PRODUCTS -->
+      <section class="section" id="products">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Products</h3>
+
+            <button class="btn btn-primary" onclick="openProductModal()">
+              + Product যোগ করুন
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ছবি</th>
+                  <th>নাম</th>
+                  <th>Slug</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="productsTable">
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CATEGORIES -->
+      <section class="section" id="categories">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Categories</h3>
+
+            <button class="btn btn-primary" onclick="openCategoryModal()">
+              + Category যোগ করুন
+            </button>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>নাম</th>
+                  <th>Description</th>
+                  <th>Sort</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="categoriesTable">
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ORDERS -->
+      <section class="section" id="orders">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Orders</h3>
+
+            <button class="btn btn-secondary" onclick="loadOrders()">
+              🔄 Refresh
+            </button>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>District</th>
+                  <th>Area</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="ordersTable">
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BANNERS -->
+      <section class="section" id="banners">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Banners</h3>
+
+            <button class="btn btn-primary" onclick="openBannerModal()">
+              + Banner যোগ করুন
+            </button>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>ছবি</th>
+                  <th>Title</th>
+                  <th>Subtitle</th>
+                  <th>Button</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="bannersTable">
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SETTINGS -->
+      <section class="section" id="settings">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Shop Settings</h3>
+          </div>
+
+          <form id="settingsForm">
+
+            <div class="form-group">
+              <label>Shop Name</label>
+              <input id="shopName">
+            </div>
+
+            <div class="form-group">
+              <label>Logo URL</label>
+              <input id="logoUrl">
+            </div>
+
+            <div class="form-group">
+              <label>Phone</label>
+              <input id="shopPhone">
+            </div>
+
+            <div class="form-group">
+              <label>WhatsApp</label>
+              <input id="shopWhatsapp">
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input id="shopEmail">
+            </div>
+
+            <div class="form-group">
+              <label>Address</label>
+              <textarea id="shopAddress"></textarea>
+            </div>
+
+            <button class="btn btn-primary">
+              💾 Save Settings
+            </button>
+
+          </form>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- PRODUCT MODAL -->
+<div class="modal" id="productModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3 id="productModalTitle">Product যোগ করুন</h3>
+      <button class="close" onclick="closeModal('productModal')">×</button>
+    </div>
+
+    <form id="productForm">
+
+      <input type="hidden" id="productId">
+
+      <div class="form-group">
+        <label>Product Name</label>
+        <input id="productName" required>
+      </div>
+
+      <div class="form-group">
+        <label>Slug</label>
+        <input id="productSlug">
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select id="productCategory">
+          <option value="">Category নির্বাচন করুন</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Image URL</label>
+        <input id="productImage" placeholder="https://...">
+      </div>
+
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" id="productPrice">
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="productDescription" rows="5"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          onclick="closeModal('productModal')">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary">
+          Save Product
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- CATEGORY MODAL -->
+<div class="modal" id="categoryModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3>Category যোগ করুন</h3>
+      <button class="close" onclick="closeModal('categoryModal')">×</button>
+    </div>
+
+    <form id="categoryForm">
+
+      <div class="form-group">
+        <label>Category Name</label>
+        <input id="categoryName" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="categoryDescription"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Sort Order</label>
+        <input type="number" id="categorySort" value="10">
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary"
+          onclick="closeModal('categoryModal')">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary">
+          Save Category
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- BANNER MODAL -->
+<div class="modal" id="bannerModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3>Banner যোগ করুন</h3>
+      <button class="close" onclick="closeModal('bannerModal')">×</button>
+    </div>
+
+    <form id="bannerForm">
+
+      <div class="form-group">
+        <label>Title</label>
+        <input id="bannerTitle" required>
+      </div>
+
+      <div class="form-group">
+        <label>Subtitle</label>
+        <input id="bannerSubtitle">
+      </div>
+
+      <div class="form-group">
+        <label>Image URL</label>
+        <input id="bannerImage">
+      </div>
+
+      <div class="form-group">
+        <label>Button Text</label>
+        <input id="bannerButtonText" value="এখনই কিনুন">
+      </div>
+
+      <div class="form-group">
+        <label>Button Link</label>
+        <input id="bannerButtonLink" value="#products">
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary"
+          onclick="closeModal('bannerModal')">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary">
+          Save Banner
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+   ===================================================== */
+
+const SUPABASE_URL =
+  "https://dxsqlngttrkcizylmnv.supabase.co";
+
+/*
+  এখানে আপনার Supabase Publishable/anon key বসাবেন।
+  service_role key কখনো এখানে বসাবেন না।
+*/
+const SUPABASE_ANON_KEY =
+  "sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+
+/* =====================================================
+   GLOBAL
+   ===================================================== */
+
+let currentUser = null;
+let products = [];
+let categories = [];
+let orders = [];
+let banners = [];
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+function toast(message){
+
+  const el = document.getElementById("toast");
+
+  el.textContent = message;
+  el.style.display = "block";
+
+  setTimeout(()=>{
+    el.style.display = "none";
+  },3000);
+}
+
+
+/* =====================================================
+   LOGIN
+   ===================================================== */
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const error =
+    document.getElementById("loginError");
+
+  error.style.display = "none";
+
+  const { data, error: loginError } =
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(loginError){
+
+    error.textContent =
+      "Login ব্যর্থ: " + loginError.message;
+
+    error.style.display = "block";
+
+    return;
+  }
+
+  currentUser = data.user;
+
+  await checkAdmin();
+
+});
+
+
+/* =====================================================
+   CHECK ADMIN
+   ===================================================== */
+
+async function checkAdmin(){
+
+  if(!currentUser) return;
+
+  const { data, error } =
+    await db
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+  if(error){
+
+    alert(
+      "Admin check error: " +
+      error.message
+    );
+
+    await db.auth.signOut();
+
+    return;
+  }
+
+  if(!data){
+
+    alert(
+      "এই account-এর Admin permission নেই।"
+    );
+
+    await db.auth.signOut();
+
+    return;
+  }
+
+  document.getElementById("loginPage")
+    .style.display = "none";
+
+  document.getElementById("app")
+    .style.display = "block";
+
+  document.getElementById("userEmail")
+    .textContent = currentUser.email;
+
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   SESSION CHECK
+   ===================================================== */
+
+async function init(){
+
+  const { data } =
+    await db.auth.getSession();
+
+  if(data.session){
+
+    currentUser =
+      data.session.user;
+
+    await checkAdmin();
+
+  }
+
+}
+
+init();
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async ()=>{
+
+  await db.auth.signOut();
+
+  location.reload();
+
+});
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+document.querySelectorAll(".menu button")
+.forEach(button=>{
+
+  button.addEventListener("click", ()=>{
+
+    document.querySelectorAll(".menu button")
+      .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    document.querySelectorAll(".section")
+      .forEach(x=>x.classList.remove("active"));
+
+    const section =
+      document.getElementById(
+        button.dataset.section
+      );
+
+    section.classList.add("active");
+
+    const titles = {
+      dashboard:"Dashboard",
+      products:"Products",
+      categories:"Categories",
+      orders:"Orders",
+      banners:"Banners",
+      settings:"Settings"
+    };
+
+    document.getElementById("pageTitle")
+      .textContent =
+      titles[button.dataset.section];
+
+    if(button.dataset.section==="dashboard")
+      loadDashboard();
+
+    if(button.dataset.section==="products")
+      loadProducts();
+
+    if(button.dataset.section==="categories")
+      loadCategories();
+
+    if(button.dataset.section==="orders")
+      loadOrders();
+
+    if(button.dataset.section==="banners")
+      loadBanners();
+
+    if(button.dataset.section==="settings")
+      loadSettings();
+
+  });
+
+});
+
+
+/* =====================================================
+   DASHBOARD
+   ===================================================== */
+
+async function loadDashboard(){
+
+  const p = await db
+    .from("products")
+    .select("id",{count:"exact",head:true});
+
+  const c = await db
+    .from("categories")
+    .select("id",{count:"exact",head:true});
+
+  const o = await db
+    .from("orders")
+    .select("id",{count:"exact",head:true});
+
+  const b = await db
+    .from("banners")
+    .select("id",{count:"exact",head:true});
+
+  document.getElementById("productCount")
+    .textContent = p.count || 0;
+
+  document.getElementById("categoryCount")
+    .textContent = c.count || 0;
+
+  document.getElementById("orderCount")
+    .textContent = o.count || 0;
+
+  document.getElementById("bannerCount")
+    .textContent = b.count || 0;
+}
+
+
+/* =====================================================
+   PRODUCTS
+   ===================================================== */
+
+async function loadProducts(){
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  products = data || [];
+
+  const tbody =
+    document.getElementById("productsTable");
+
+  if(!products.length){
+
+    tbody.innerHTML =
+      `<tr><td colspan="6" class="empty">
+        কোনো Product নেই
+      </td></tr>`;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    products.map(p=>{
+
+      const image =
+        p.image_url ||
+        (
+          Array.isArray(p.gallery)
+          ? p.gallery[0]
+          : ""
+        );
+
+      return `
+        <tr>
+
+          <td>
+            ${
+              image
+              ? `<img class="thumb" src="${escapeHtml(image)}">`
+              : "—"
+            }
+          </td>
+
+          <td>${escapeHtml(p.name || "")}</td>
+
+          <td>${escapeHtml(p.slug || "")}</td>
+
+          <td>${escapeHtml(p.category_id || "")}</td>
+
+          <td>${p.price ?? "—"}</td>
+
+          <td>
+            <div class="actions">
+              <button class="btn btn-danger"
+                onclick="deleteProduct('${p.id}')">
+                Delete
+              </button>
+            </div>
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   PRODUCT MODAL
+   ===================================================== */
+
+async function openProductModal(){
+
+  document.getElementById("productForm").reset();
+
+  document.getElementById("productId").value="";
+
+  await loadCategoryOptions();
+
+  document.getElementById("productModal")
+    .classList.add("show");
+
+}
+
+
+async function loadCategoryOptions(){
+
+  const { data } =
+    await db
+      .from("categories")
+      .select("id,name")
+      .eq("is_active",true)
+      .order("sort_order");
+
+  const select =
+    document.getElementById("productCategory");
+
+  select.innerHTML =
+    `<option value="">Category নির্বাচন করুন</option>`;
+
+  (data || []).forEach(c=>{
+
+    select.innerHTML += `
+      <option value="${c.id}">
+        ${escapeHtml(c.name)}
+      </option>
+    `;
+
+  });
+
+}
+
+
+document.getElementById("productForm")
+.addEventListener("submit", async e=>{
+
+  e.preventDefault();
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const slug =
+    document.getElementById("productSlug").value.trim()
+    || slugify(name);
+
+  const category_id =
+    document.getElementById("productCategory").value || null;
+
+  const image_url =
+    document.getElementById("productImage").value.trim()
+    || null;
+
+  const priceValue =
+    document.getElementById("productPrice").value;
+
+  const description =
+    document.getElementById("productDescription").value.trim()
+    || null;
+
+  const payload = {
+    name,
+    slug,
+    category_id,
+    image_url,
+    description
+  };
+
+  if(priceValue !== ""){
+    payload.price = Number(priceValue);
+  }
+
+  const { error } =
+    await db
+      .from("products")
+      .insert(payload);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  closeModal("productModal");
+
+  toast("Product যোগ হয়েছে ✅");
+
+  loadProducts();
+  loadDashboard();
+
+});
+
+
+async function deleteProduct(id){
+
+  if(!confirm("এই Product মুছে ফেলবেন?"))
+    return;
+
+  const { error } =
+    await db
+      .from("products")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  toast("Product মুছে ফেলা হয়েছে");
+
+  loadProducts();
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   CATEGORIES
+   ===================================================== */
+
+async function loadCategories(){
+
+  const { data,error } =
+    await db
+      .from("categories")
+      .select("*")
+      .order("sort_order");
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  categories = data || [];
+
+  const tbody =
+    document.getElementById("categoriesTable");
+
+  if(!categories.length){
+
+    tbody.innerHTML =
+      `<tr><td colspan="5" class="empty">
+        কোনো Category নেই
+      </td></tr>`;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    categories.map(c=>`
+
+      <tr>
+
+        <td>${escapeHtml(c.name || "")}</td>
+
+        <td>${escapeHtml(c.description || "")}</td>
+
+        <td>${c.sort_order ?? ""}</td>
+
+        <td>
+          ${
+            c.is_active
+            ? `<span class="badge">Active</span>`
+            : `<span class="badge">Inactive</span>`
+          }
+        </td>
+
+        <td>
+
+          <button class="btn btn-danger"
+            onclick="deleteCategory('${c.id}')">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function openCategoryModal(){
+
+  document.getElementById("categoryForm").reset();
+
+  document.getElementById("categoryModal")
+    .classList.add("show");
+
+}
+
+
+document.getElementById("categoryForm")
+.addEventListener("submit", async e=>{
+
+  e.preventDefault();
+
+  const payload = {
+
+    name:
+      document.getElementById("categoryName")
+        .value.trim(),
+
+    description:
+      document.getElementById("categoryDescription")
+        .value.trim() || null,
+
+    sort_order:
+      Number(
+        document.getElementById("categorySort").value
+      ) || 10,
+
+    is_active:true
+
+  };
+
+  const { error } =
+    await db
+      .from("categories")
+      .insert(payload);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  closeModal("categoryModal");
+
+  toast("Category যোগ হয়েছে ✅");
+
+  loadCategories();
+  loadDashboard();
+
+});
+
+
+async function deleteCategory(id){
+
+  if(!confirm("Category মুছে ফেলবেন?"))
+    return;
+
+  const { error } =
+    await db
+      .from("categories")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  toast("Category মুছে ফেলা হয়েছে");
+
+  loadCategories();
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   ORDERS
+   ===================================================== */
+
+async function loadOrders(){
+
+  const { data,error } =
+    await db
+      .from("orders")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  orders = data || [];
+
+  const tbody =
+    document.getElementById("ordersTable");
+
+  if(!orders.length){
+
+    tbody.innerHTML =
+      `<tr><td colspan="6" class="empty">
+        এখনো কোনো Order নেই
+      </td></tr>`;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    orders.map(o=>`
+
+      <tr>
+
+        <td>${escapeHtml(o.customer_name || "")}</td>
+
+        <td>${escapeHtml(o.phone || "")}</td>
+
+        <td>${escapeHtml(o.district || "")}</td>
+
+        <td>${escapeHtml(o.area || "")}</td>
+
+        <td>
+          <select
+            onchange="changeOrderStatus('${o.id}',this.value)">
+            ${orderStatuses(o.status)}
+          </select>
+        </td>
+
+        <td>
+          <button class="btn btn-danger"
+            onclick="deleteOrder('${o.id}')">
+            Delete
+          </button>
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function orderStatuses(current){
+
+  const statuses = [
+    "pending",
+    "confirmed",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled"
+  ];
+
+  return statuses.map(s=>`
+
+    <option
+      value="${s}"
+      ${current===s?"selected":""}>
+      ${s}
+    </option>
+
+  `).join("");
+
+}
+
+
+async function changeOrderStatus(id,status){
+
+  const { error } =
+    await db
+      .from("orders")
+      .update({status})
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  toast("Order status updated ✅");
+
+}
+
+
+async function deleteOrder(id){
+
+  if(!confirm("এই Order মুছে ফেলবেন?"))
+    return;
+
+  /*
+    আগে order_items মুছে দেওয়া হচ্ছে
+    যাতে foreign key থাকলে সমস্যা না হয়।
+  */
+
+  await db
+    .from("order_items")
+    .delete()
+    .eq("order_id",id);
+
+  const { error } =
+    await db
+      .from("orders")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  toast("Order মুছে ফেলা হয়েছে");
+
+  loadOrders();
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   BANNERS
+   ===================================================== */
+
+async function loadBanners(){
+
+  const { data,error } =
+    await db
+      .from("banners")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  banners = data || [];
+
+  const tbody =
+    document.getElementById("bannersTable");
+
+  if(!banners.length){
+
+    tbody.innerHTML =
+      `<tr><td colspan="5" class="empty">
+        কোনো Banner নেই
+      </td></tr>`;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    banners.map(b=>`
+
+      <tr>
+
+        <td>
+          ${
+            b.image_url
+            ? `<img class="thumb"
+                src="${escapeHtml(b.image_url)}">`
+            : "—"
+          }
+        </td>
+
+        <td>${escapeHtml(b.title || "")}</td>
+
+        <td>${escapeHtml(b.subtitle || "")}</td>
+
+        <td>${escapeHtml(b.button_text || "")}</td>
+
+        <td>
+
+          <button class="btn btn-danger"
+            onclick="deleteBanner('${b.id}')">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function openBannerModal(){
+
+  document.getElementById("bannerForm").reset();
+
+  document.getElementById("bannerModal")
+    .classList.add("show");
+
+}
+
+
+document.getElementById("bannerForm")
+.addEventListener("submit", async e=>{
+
+  e.preventDefault();
+
+  const payload = {
+
+    title:
+      document.getElementById("bannerTitle")
+        .value.trim(),
+
+    subtitle:
+      document.getElementById("bannerSubtitle")
+        .value.trim() || null,
+
+    image_url:
+      document.getElementById("bannerImage")
+        .value.trim() || null,
+
+    button_text:
+      document.getElementById("bannerButtonText")
+        .value.trim() || null,
+
+    button_link:
+      document.getElementById("bannerButtonLink")
+        .value.trim() || null,
+
+    is_active:true
+
+  };
+
+  const { error } =
+    await db
+      .from("banners")
+      .insert(payload);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  closeModal("bannerModal");
+
+  toast("Banner যোগ হয়েছে ✅");
+
+  loadBanners();
+  loadDashboard();
+
+});
+
+
+async function deleteBanner(id){
+
+  if(!confirm("Banner মুছে ফেলবেন?"))
+    return;
+
+  const { error } =
+    await db
+      .from("banners")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  toast("Banner মুছে ফেলা হয়েছে");
+
+  loadBanners();
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   SETTINGS
+   ===================================================== */
+
+async function loadSettings(){
+
+  const { data,error } =
+    await db
+      .from("site_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+  if(!data) return;
+
+  document.getElementById("shopName")
+    .value = data.shop_name || "";
+
+  document.getElementById("logoUrl")
+    .value = data.logo_url || "";
+
+  document.getElementById("shopPhone")
+    .value = data.phone || "";
+
+  document.getElementById("shopWhatsapp")
+    .value = data.whatsapp || "";
+
+  document.getElementById("shopEmail")
+    .value = data.email || "";
+
+  document.getElementById("shopAddress")
+    .value = data.address || "";
+
+}
+
+
+document.getElementById("settingsForm")
+.addEventListener("submit", async e=>{
+
+  e.preventDefault();
+
+  const { data:existing } =
+    await db
+      .from("site_settings")
+      .select("id")
+      .limit(1)
+      .maybeSingle();
+
+  const payload = {
+
+    shop_name:
+      document.getElementById("shopName").value.trim(),
+
+    logo_url:
+      document.getElementById("logoUrl").value.trim() || null,
+
+    phone:
+      document.getElementById("shopPhone").value.trim() || null,
+
+    whatsapp:
+      document.getElementById("shopWhatsapp").value.trim() || null,
+
+    email:
+      document.getElementById("shopEmail").value.trim() || null,
+
+    address:
+      document.getElementById("shopAddress").value.trim() || null
+
+  };
+
+  let result;
+
+  if(existing){
+
+    result =
+      await db
+        .from("site_settings")
+        .update(payload)
+        .eq("id",existing.id);
+
+  }else{
+
+    result =
+      await db
+        .from("site_settings")
+        .insert(payload);
+
+  }
+
+  if(result.error){
+
+    toast(result.error.message);
+    return;
+
+  }
+
+  toast("Settings saved ✅");
+
+});
+
+
+/* =====================================================
+   MODAL
+   ===================================================== */
+
+function closeModal(id){
+
+  document.getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   SLUG
+   ===================================================== */
+
+function slugify(text){
+
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g,"")
+    .replace(/\s+/g,"-")
+    .replace(/-+/g,"-");
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+   ===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
