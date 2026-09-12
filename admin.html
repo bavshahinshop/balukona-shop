@@ -206,17 +206,138 @@ button{cursor:pointer}
 </div></div>
 
 <!-- CATEGORY MODAL -->
-<div class="modal" id="categoryModal"><div class="modal-box">
-  <div class="modal-header"><h3 id="categoryModalTitle">Category যোগ করুন</h3><button class="close" onclick="closeModal('categoryModal')">×</button></div>
-  <form id="categoryForm">
-    <input type="hidden" id="categoryId">
-    <div class="form-group"><label>Category Name</label><input id="categoryName" required></div>
-    <div class="form-group"><label>Description</label><textarea id="categoryDescription"></textarea></div>
-    <div class="form-group"><label>Sort Order</label><input type="number" id="categorySort" value="10"></div>
-    <div class="form-group"><label><input type="checkbox" id="categoryActive" checked> Active</label></div>
-    <div class="modal-footer"><button type="button" class="btn btn-secondary" onclick="closeModal('categoryModal')">Cancel</button><button class="btn btn-primary">Save Category</button></div>
-  </form>
-</div></div>
+<div class="modal" id="categoryModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3 id="categoryModalTitle">📁 নতুন ক্যাটাগরি যোগ করুন</h3>
+
+      <button
+        class="close"
+        type="button"
+        onclick="closeModal('categoryModal')">
+        ×
+      </button>
+    </div>
+
+    <form id="categoryForm">
+
+      <input type="hidden" id="categoryId">
+
+      <!-- Category Name -->
+      <div class="form-group">
+        <label>ক্যাটাগরির নাম *</label>
+        <input
+          type="text"
+          id="categoryName"
+          placeholder="যেমন: 3D প্রিমিয়াম কুচি চাদর"
+          required>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label>সংক্ষিপ্ত বর্ণনা</label>
+        <textarea
+          id="categoryDescription"
+          rows="3"
+          placeholder="ক্যাটাগরির সংক্ষিপ্ত বর্ণনা লিখুন"></textarea>
+      </div>
+
+      <!-- Category Image -->
+      <div class="form-group">
+
+        <label>🖼️ ক্যাটাগরি ছবি</label>
+
+        <div
+          style="
+            border:2px dashed #cbd5e1;
+            border-radius:12px;
+            padding:18px;
+            text-align:center;
+            background:#f8fafc;
+          ">
+
+          <input
+            type="file"
+            id="categoryImage"
+            accept="image/*">
+
+          <div
+            id="categoryImagePreview"
+            style="
+              margin-top:12px;
+              display:none;
+            ">
+
+            <img
+              id="categoryPreviewImg"
+              src=""
+              alt="Category Preview"
+              style="
+                width:140px;
+                height:140px;
+                object-fit:cover;
+                border-radius:50%;
+                border:3px solid #e2e8f0;
+              ">
+
+          </div>
+
+          <small
+            style="
+              display:block;
+              margin-top:8px;
+              color:#64748b;
+            ">
+            JPG, PNG বা WEBP ছবি দিন
+          </small>
+
+        </div>
+      </div>
+
+      <!-- Sort Order -->
+      <div class="form-group">
+        <label>ক্রমিক নম্বর</label>
+
+        <input
+          type="number"
+          id="categorySort"
+          value="10">
+      </div>
+
+      <!-- Active -->
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            id="categoryActive"
+            checked>
+          Active
+        </label>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModal('categoryModal')">
+          বাতিল
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+          💾 ক্যাটাগরি সংরক্ষণ
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
 
 <!-- BANNER MODAL -->
 <div class="modal" id="bannerModal"><div class="modal-box">
