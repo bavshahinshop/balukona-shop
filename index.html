@@ -28,11 +28,10 @@ a{
 
 button{
     font-family:inherit;
+    cursor:pointer;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ================= HEADER ================= */
 
 .header{
     background:#fff;
@@ -116,12 +115,9 @@ button{
     border:1px solid #ddd;
     border-radius:9px;
     background:#fff;
-    cursor:pointer;
 }
 
-/* =========================
-   BANNER SLIDER
-========================= */
+/* ================= BANNER ================= */
 
 .hero-slider{
     width:94%;
@@ -147,7 +143,6 @@ button{
 
 .banner-slide.active{
     display:block;
-    animation:bannerFade .55s ease;
 }
 
 .banner-image-link{
@@ -164,8 +159,8 @@ button{
     object-position:center;
 }
 
-.banner-placeholder,
-.banner-loading{
+.banner-loading,
+.banner-placeholder{
     width:100%;
     height:100%;
     display:flex;
@@ -195,7 +190,6 @@ button{
     border-radius:50%;
     background:#999;
     padding:0;
-    cursor:pointer;
 }
 
 .banner-dot.active{
@@ -216,9 +210,7 @@ button{
     color:#333;
     box-shadow:0 2px 10px rgba(0,0,0,.12);
     z-index:20;
-    cursor:pointer;
     font-size:25px;
-    line-height:1;
 }
 
 .banner-prev{
@@ -229,29 +221,15 @@ button{
     right:12px;
 }
 
-@keyframes bannerFade{
-    from{
-        opacity:.25;
-    }
-    to{
-        opacity:1;
-    }
-}
-
-/* =========================
-   COMMON SECTION
-========================= */
+/* ================= COMMON ================= */
 
 .section{
     width:94%;
     max-width:1400px;
-    margin:45px auto;
+    margin:40px auto;
 }
 
 .section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
     margin-bottom:20px;
 }
 
@@ -264,61 +242,7 @@ button{
     margin-top:5px;
 }
 
-.see-all{
-    color:#3c9d3b;
-    font-weight:bold;
-}
-
-/* =========================
-   CATEGORY SECTION
-========================= */
-
-.category-section{
-    width:94%;
-    max-width:1400px;
-    margin:40px auto 55px;
-}
-
-.category-section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
-
-.category-title-wrap h2{
-    font-size:28px;
-    color:#101b14;
-}
-
-.category-title-wrap p{
-    color:#777;
-    margin-top:6px;
-}
-
-.category-products{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:6px;
-}
-
-.category-see-all{
-    background:#173fe5;
-    color:#fff;
-    border:0;
-    padding:9px 22px;
-    border-radius:4px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.category-see-all:hover{
-    background:#1233bd;
-}
-
-/* =========================
-   CATEGORY ICONS
-========================= */
+/* ================= CATEGORY MENU ================= */
 
 .categories{
     display:grid;
@@ -367,9 +291,51 @@ button{
     font-weight:bold;
 }
 
-/* =========================
-   PRODUCT CARD
-========================= */
+/* ================= CATEGORY PRODUCT SECTION ================= */
+
+.category-section{
+    width:94%;
+    max-width:1400px;
+    margin:45px auto 55px;
+}
+
+.category-section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.category-title-wrap h2{
+    font-size:28px;
+    color:#101b14;
+}
+
+.category-title-wrap p{
+    color:#777;
+    margin-top:6px;
+}
+
+.category-see-all{
+    background:#173fe5;
+    color:#fff;
+    border:0;
+    padding:9px 22px;
+    border-radius:4px;
+    font-weight:bold;
+}
+
+.category-see-all:hover{
+    background:#1233bd;
+}
+
+.category-products{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+}
+
+/* ================= PRODUCT ================= */
 
 .product{
     background:#fff;
@@ -473,13 +439,8 @@ button{
     color:#fff;
     padding:9px 5px;
     border-radius:4px;
-    cursor:pointer;
     font-weight:bold;
     font-size:12px;
-}
-
-.order:hover{
-    background:#1233b9;
 }
 
 .cart{
@@ -488,34 +449,21 @@ button{
     background:#fff;
     color:#173fd7;
     border-radius:4px;
-    cursor:pointer;
 }
 
-/* =========================
-   EMPTY / LOADING
-========================= */
+/* ================= BOX ================= */
 
-.loading-box{
-    text-align:center;
+.loading-box,
+.empty-box{
     padding:35px;
+    text-align:center;
     color:#777;
     background:#fff;
-    border-radius:10px;
-    border:1px solid #eee;
-}
-
-.empty-box{
-    padding:30px;
-    text-align:center;
-    color:#888;
-    background:#fff;
     border:1px solid #eee;
     border-radius:10px;
 }
 
-/* =========================
-   OFFER
-========================= */
+/* ================= OFFER ================= */
 
 .offer{
     background:linear-gradient(100deg,#388e3c,#79bd57);
@@ -540,9 +488,7 @@ button{
     font-weight:bold;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* ================= FOOTER ================= */
 
 footer{
     background:#17251b;
@@ -574,9 +520,7 @@ footer p{
     color:#aaa;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* ================= MOBILE ================= */
 
 @media(max-width:1100px){
 
@@ -748,19 +692,19 @@ footer p{
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
     <div class="logo">
+
         <div class="logo-icon">B</div>
 
         <div class="logo-text">
             <h2>বালুকনা শপ</h2>
             <small>BALUKONA SHOP</small>
         </div>
+
     </div>
 
     <nav class="nav">
@@ -783,7 +727,6 @@ footer p{
         </div>
 
         <button class="icon-btn" type="button">👤</button>
-
         <button class="icon-btn" type="button">🛒</button>
 
     </div>
@@ -791,13 +734,14 @@ footer p{
 </header>
 
 
-<!-- =========================
-     BANNER SLIDER
-========================= -->
+<!-- ================= BANNER ================= -->
 
 <section class="hero-slider" id="bannerSlider">
 
-    <div class="banner-loading" id="bannerLoading">
+    <div
+        class="banner-loading"
+        id="bannerLoading"
+    >
         Banner লোড হচ্ছে...
     </div>
 
@@ -805,7 +749,6 @@ footer p{
         class="banner-arrow banner-prev"
         id="bannerPrev"
         type="button"
-        aria-label="Previous Banner"
     >
         ‹
     </button>
@@ -814,31 +757,32 @@ footer p{
         class="banner-arrow banner-next"
         id="bannerNext"
         type="button"
-        aria-label="Next Banner"
     >
         ›
     </button>
 
-    <div class="banner-dots" id="bannerDots"></div>
+    <div
+        class="banner-dots"
+        id="bannerDots"
+    ></div>
 
 </section>
 
 
-<!-- =========================
-     ALL CATEGORIES
-========================= -->
+<!-- ================= ALL CATEGORIES ================= -->
 
-<section class="section" id="allCategories">
+<section
+    class="section"
+    id="allCategories"
+>
 
     <div class="section-head">
 
-        <div>
-            <h2>ক্যাটাগরি সমূহ</h2>
+        <h2>ক্যাটাগরি সমূহ</h2>
 
-            <p>
-                আপনার পছন্দের ক্যাটাগরি বেছে নিন
-            </p>
-        </div>
+        <p>
+            আপনার পছন্দের ক্যাটাগরি বেছে নিন
+        </p>
 
     </div>
 
@@ -856,9 +800,7 @@ footer p{
 </section>
 
 
-<!-- =========================
-     PRODUCTS BY CATEGORY
-========================= -->
+<!-- ================= PRODUCTS ================= -->
 
 <div id="productsArea">
 
@@ -869,9 +811,7 @@ footer p{
 </div>
 
 
-<!-- =========================
-     OFFER
-========================= -->
+<!-- ================= OFFER ================= -->
 
 <section class="section">
 
@@ -901,9 +841,7 @@ footer p{
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- ================= FOOTER ================= -->
 
 <footer id="contact">
 
@@ -911,9 +849,7 @@ footer p{
 
         <div>
 
-            <h3>
-                🛍️ বালুকনা শপ
-            </h3>
+            <h3>🛍️ বালুকনা শপ</h3>
 
             <p>
                 আপনার পছন্দের মানসম্মত পণ্য
@@ -922,18 +858,11 @@ footer p{
 
         </div>
 
-
         <div>
 
-            <h3>
-                গুরুত্বপূর্ণ লিংক
-            </h3>
+            <h3>গুরুত্বপূর্ণ লিংক</h3>
 
-            <p>
-                <a href="#">
-                    হোম
-                </a>
-            </p>
+            <p><a href="#">হোম</a></p>
 
             <p>
                 <a href="#allCategories">
@@ -949,55 +878,30 @@ footer p{
 
         </div>
 
-
         <div>
 
-            <h3>
-                সহায়তা
-            </h3>
+            <h3>সহায়তা</h3>
 
-            <p>
-                যোগাযোগ
-            </p>
-
-            <p>
-                রিটার্ন পলিসি
-            </p>
-
-            <p>
-                ডেলিভারি তথ্য
-            </p>
+            <p>যোগাযোগ</p>
+            <p>রিটার্ন পলিসি</p>
+            <p>ডেলিভারি তথ্য</p>
 
         </div>
 
-
         <div>
 
-            <h3>
-                যোগাযোগ
-            </h3>
+            <h3>যোগাযোগ</h3>
 
-            <p>
-                📞 01XXXXXXXXX
-            </p>
-
-            <p>
-                📧 info@balukonashop.com
-            </p>
-
-            <p>
-                📍 বাংলাদেশ
-            </p>
+            <p>📞 01XXXXXXXXX</p>
+            <p>📧 info@balukonashop.com</p>
+            <p>📍 বাংলাদেশ</p>
 
         </div>
 
     </div>
 
-
     <div class="copyright">
-
         © 2026 Balukona Shop — সর্বস্বত্ব সংরক্ষিত।
-
     </div>
 
 </footer>
@@ -1015,19 +919,27 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
     "sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
 
-const {
-    createClient
-} = supabase;
-
 const db =
-    createClient(
+    supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY
     );
 
 
 /* =====================================================
-   COMMON HELPERS
+   GLOBAL DATA
+===================================================== */
+
+let allCategories = [];
+let allProducts = [];
+let shopBanners = [];
+
+let bannerIndex = 0;
+let bannerTimer = null;
+
+
+/* =====================================================
+   HELPERS
 ===================================================== */
 
 function escapeHtml(value){
@@ -1038,22 +950,6 @@ function escapeHtml(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
-
-}
-
-
-function money(value){
-
-    const number =
-        Number(value || 0);
-
-    return number.toLocaleString(
-        "en-BD",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    ) + " BDT";
 
 }
 
@@ -1069,15 +965,71 @@ function getImageUrl(value){
 }
 
 
+function formatPrice(value){
+
+    return Number(value || 0).toLocaleString(
+        "en-BD",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
 /* =====================================================
-   BANNER SLIDER
+   BANNERS
 ===================================================== */
 
-let shopBanners = [];
+async function loadBanners(){
 
-let bannerIndex = 0;
+    const loading =
+        document.getElementById(
+            "bannerLoading"
+        );
 
-let bannerTimer = null;
+    try{
+
+        const {
+            data,
+            error
+        } = await db
+            .from("banners")
+            .select("*")
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+        if(error){
+            throw error;
+        }
+
+        shopBanners =
+            data || [];
+
+        renderBanners();
+
+    }catch(error){
+
+        console.error(
+            "Banner Error:",
+            error
+        );
+
+        loading.textContent =
+            "Banner লোড করা যায়নি";
+
+    }
+
+}
 
 
 function renderBanners(){
@@ -1108,17 +1060,13 @@ function renderBanners(){
         );
 
 
-    if(!slider){
-        return;
-    }
-
-
     slider
         .querySelectorAll(
             ".banner-slide"
         )
         .forEach(
-            el => el.remove()
+            element =>
+                element.remove()
         );
 
 
@@ -1127,11 +1075,11 @@ function renderBanners(){
 
     if(!shopBanners.length){
 
-        loading.textContent =
-            "কোনো Active Banner নেই";
-
         loading.style.display =
             "flex";
+
+        loading.textContent =
+            "কোনো Active Banner নেই";
 
         prev.style.display =
             "none";
@@ -1140,6 +1088,7 @@ function renderBanners(){
             "none";
 
         return;
+
     }
 
 
@@ -1184,17 +1133,17 @@ function renderBanners(){
                 );
 
 
+            const title =
+                escapeHtml(
+                    banner.title ||
+                    "Balukona Shop"
+                );
+
+
             const link =
                 escapeHtml(
                     banner.button_link ||
                     "#productsArea"
-                );
-
-
-            const title =
-                escapeHtml(
-                    banner.title ||
-                    "Balukona Shop Banner"
                 );
 
 
@@ -1203,19 +1152,14 @@ function renderBanners(){
                 slide.innerHTML = `
 
                     <a
-                        class="banner-image-link"
                         href="${link}"
+                        class="banner-image-link"
                     >
 
                         <img
-                            class="banner-image"
                             src="${escapeHtml(image)}"
                             alt="${title}"
-                            loading="${
-                                index === 0
-                                ? "eager"
-                                : "lazy"
-                            }"
+                            class="banner-image"
                         >
 
                     </a>
@@ -1261,18 +1205,10 @@ function renderBanners(){
                         : ""
                     );
 
-                dot.setAttribute(
-                    "aria-label",
-                    "Banner " +
-                    (index + 1)
-                );
-
-
                 dot.addEventListener(
                     "click",
                     () => showBanner(index)
                 );
-
 
                 dots.appendChild(dot);
 
@@ -1348,7 +1284,7 @@ function nextBanner(){
 }
 
 
-function prevBanner(){
+function previousBanner(){
 
     showBanner(
         bannerIndex - 1
@@ -1389,86 +1325,12 @@ document
     .getElementById("bannerPrev")
     .addEventListener(
         "click",
-        prevBanner
+        previousBanner
     );
 
 
-async function loadShopBanners(){
-
-    const loading =
-        document.getElementById(
-            "bannerLoading"
-        );
-
-
-    try{
-
-        const {
-            data,
-            error
-        } = await db
-            .from("banners")
-            .select(
-                "id,title,subtitle,image_url,button_text,button_link,is_active,created_at"
-            )
-            .eq(
-                "is_active",
-                true
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-
-        if(error){
-            throw error;
-        }
-
-
-        shopBanners =
-            data || [];
-
-
-        bannerIndex =
-            0;
-
-
-        renderBanners();
-
-
-    }catch(error){
-
-        console.error(
-            "Banner load error:",
-            error
-        );
-
-
-        loading.textContent =
-            "Banner লোড করা যায়নি";
-
-        loading.style.display =
-            "flex";
-
-    }
-
-}
-
-
 /* =====================================================
-   CATEGORY DATA
-===================================================== */
-
-let allCategories = [];
-
-let allProducts = [];
-
-
-/* =====================================================
-   LOAD CATEGORIES
+   CATEGORY
 ===================================================== */
 
 async function loadCategories(){
@@ -1516,7 +1378,7 @@ async function loadCategories(){
     }catch(error){
 
         console.error(
-            "Category load error:",
+            "Category Error:",
             error
         );
 
@@ -1525,7 +1387,7 @@ async function loadCategories(){
 
             <div class="empty-box">
 
-                ❌ ক্যাটাগরি লোড করা যায়নি।
+                ❌ Category লোড করা যায়নি।
 
             </div>
 
@@ -1554,13 +1416,14 @@ function renderCategoryMenu(){
 
             <div class="empty-box">
 
-                কোনো ক্যাটাগরি পাওয়া যায়নি।
+                কোনো Category পাওয়া যায়নি।
 
             </div>
 
         `;
 
         return;
+
     }
 
 
@@ -1569,21 +1432,19 @@ function renderCategoryMenu(){
             .map(
                 category => {
 
-                    const id =
-                        String(
-                            category.id
+                    const image =
+                        getImageUrl(
+                            category.image_url
                         );
-
 
                     const name =
                         escapeHtml(
                             category.name
                         );
 
-
-                    const image =
-                        getImageUrl(
-                            category.image_url
+                    const id =
+                        String(
+                            category.id
                         );
 
 
@@ -1591,10 +1452,16 @@ function renderCategoryMenu(){
 
                         <div
                             class="category"
-                            onclick="scrollToCategory('${id}')"
+                            onclick="
+                                scrollToCategory(
+                                    '${id}'
+                                )
+                            "
                         >
 
-                            <div class="category-icon">
+                            <div
+                                class="category-icon"
+                            >
 
                                 ${
                                     image
@@ -1604,7 +1471,6 @@ function renderCategoryMenu(){
                                         <img
                                             src="${escapeHtml(image)}"
                                             alt="${name}"
-                                            loading="lazy"
                                         >
 
                                       `
@@ -1619,7 +1485,6 @@ function renderCategoryMenu(){
                                 }
 
                             </div>
-
 
                             <p>
                                 ${name}
@@ -1637,16 +1502,10 @@ function renderCategoryMenu(){
 
 
 /* =====================================================
-   LOAD PRODUCTS
+   PRODUCTS
 ===================================================== */
 
 async function loadProducts(){
-
-    const area =
-        document.getElementById(
-            "productsArea"
-        );
-
 
     try{
 
@@ -1655,30 +1514,7 @@ async function loadProducts(){
             error
         } = await db
             .from("products")
-            .select(
-                `
-                id,
-                name,
-                slug,
-                category_id,
-                image_url,
-                gallery,
-                description,
-                regular_price,
-                sale_price,
-                discount_percent,
-                sizes,
-                colors,
-                stock,
-                rating,
-                review_count,
-                sold_count,
-                is_featured,
-                is_trending,
-                is_active,
-                created_at
-                `
-            )
+            .select("*")
             .eq(
                 "is_active",
                 true
@@ -1700,26 +1536,14 @@ async function loadProducts(){
             data || [];
 
 
-        renderProductsByCategory();
-
-
     }catch(error){
 
         console.error(
-            "Product load error:",
+            "Product Error:",
             error
         );
 
-
-        area.innerHTML = `
-
-            <div class="empty-box section">
-
-                ❌ পণ্য লোড করা যায়নি।
-
-            </div>
-
-        `;
+        allProducts = [];
 
     }
 
@@ -1758,7 +1582,6 @@ function getProductImage(product){
                     product.gallery
                 );
 
-
             if(
                 Array.isArray(gallery) &&
                 gallery.length
@@ -1768,7 +1591,7 @@ function getProductImage(product){
 
             }
 
-        }catch(e){}
+        }catch(error){}
 
     }
 
@@ -1782,7 +1605,7 @@ function getProductImage(product){
    PRODUCT CARD
 ===================================================== */
 
-function productCard(product){
+function createProductCard(product){
 
     const name =
         escapeHtml(
@@ -1794,1212 +1617,6 @@ function productCard(product){
     const image =
         getProductImage(
             product
-        );
-
-
-    const regular =
-        Number(
-            product.regular_price || 0
-        );
-
-
-    const sale =
-        Number(
-            product.sale_price || 0
-        );
-
-
-    const currentPrice =
-        sale > 0
-        ? sale
-        : regular;
-
-
-    const discount =
-        Number(
-            product.discount_percent || 0
-        );
-
-
-    const rating =
-        Number(
-            product.rating || 0
-        );
-
-
-    let stars =
-        "";
-
-
-    for(
-        let i = 1;
-        i <= 5;
-        i++
-    ){
-
-        stars +=
-            i <= Math.round(rating)
-            ? "★"
-            : "☆";
-
-    }
-
-
-    const imageHtml =
-        image
-
-        ? `
-
-            <img
-                src="${escapeHtml(image)}"
-                alt="${name}"
-                loading="lazy"
-            >
-
-          `
-
-        : `
-
-            <div class="product-placeholder">
-                🛍️
-            </div>
-
-          `;
-
-
-    return `
-
-        <div
-            class="product"
-            data-product-name="${name}"
-        >
-
-            <div class="product-img">
-
-                ${
-                    discount > 0
-
-                    ? `
-
-                        <span class="discount">
-                            -${discount}%
-                        </span>
-
-                      `
-
-                    : ""
-
-                }
-
-
-                ${imageHtml}
-
-
-                ${
-                    product.is_trending
-
-                    ? `
-
-                        <span class="trending">
-                            🔥 Trending
-                        </span>
-
-                      `
-
-                    : ""
-
-                }
-
-            </div>
-
-
-            <div class="product-info">
-
-                <h3>
-                    ${name}
-                </h3>
-
-
-                <div class="rating">
-
-                    ${stars}
-
-                    ${
-                        rating > 0
-                        ? " " + rating.toFixed(1)
-                        : ""
-                    }
-
-                </div>
-
-
-                <span class="price">
-
-                    From Tk ${money(currentPrice)}
-
-                </span>
-
-
-                ${
-                    sale > 0 &&
-                    regular > sale
-
-                    ? `
-
-                        <span class="old-price">
-                            Tk ${money(regular)}
-                        </span>
-
-                      `
-
-                    : ""
-
-                }
-
-
-                <div class="order-row">
-
-                    <button
-                        class="order"
-                        onclick="orderProduct('${escapeHtml(product.name)}')"
-                    >
-                        ▣ বিস্তারিত দেখুন
-                    </button>
-
-
-                    <button
-                        class="cart"
-                        type="button"
-                        onclick="orderProduct('${escapeHtml(product.name)}')"
-                    >
-                        🛒
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   RENDER PRODUCTS CATEGORY BY CATEGORY
-===================================================== */
-
-function renderProductsByCategory(){
-
-    const area =
-        document.getElementById(
-            "productsArea"
-        );
-
-
-    if(!allCategories.length){
-
-        area.innerHTML = `
-
-            <div class="empty-box section">
-
-                কোনো Category পাওয়া যায়নি।
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let html = "";
-
-
-    allCategories.forEach(
-        (category,index) => {
-
-            const categoryId =
-                String(
-                    category.id
-                );
-
-
-            const categoryName =
-                escapeHtml(
-                    category.name
-                );
-
-
-            const description =
-                escapeHtml(
-                    category.description ||
-                    "আপনার পছন্দের প্রোডাক্ট বেছে নিন"
-                );
-
-
-            const products =
-                allProducts.filter(
-                    product =>
-                        String(
-                            product.category_id
-                        ) === categoryId
-                );
-
-
-            const sectionId =
-                "category-" +
-                categoryId;
-
-
-            html += `
-
-                <section
-                    class="category-section"
-                    id="${sectionId}"
-                >
-
-                    <div
-                        class="category-section-head"
-                    >
-
-                        <div
-                            class="category-title-wrap"
-                        >
-
-                            <h2>
-                                ${categoryName}
-                            </h2>
-
-                            <p>
-                                ${description}
-                            </p>
-
-                        </div>
-
-
-                        ${
-                            products.length > 5
-
-                            ? `
-
-                                <button
-                                    class="category-see-all"
-                                    type="button"
-                                    onclick="showCategoryProducts('${categoryId}')"
-                                >
-                                    সব দেখুন
-                                </button>
-
-                              `
-
-                            : ""
-
-                        }
-
-                    </div>
-
-
-                    ${
-                        products.length
-
-                        ? `
-
-                            <div
-                                class="category-products"
-                                id="products-${categoryId}"
-                            >
-
-                                ${
-                                    products
-                                        .slice(0,5)
-                                        .map(
-                                            productCard
-                                        )
-                                        .join("")
-                                }
-
-                            </div>
-
-                          `
-
-                        : `
-
-                            <div class="empty-box">
-
-                                এই ক্যাটাগরিতে এখনো কোনো পণ্য নেই।
-
-                            </div>
-
-                          `
-
-                    }
-
-                </section>
-
-            `;
-
-        }
-    );
-
-
-    area.innerHTML =
-        html;
-
-}
-
-
-/* =====================================================
-   SHOW ALL PRODUCTS OF CATEGORY
-===================================================== */
-
-function showCategoryProducts(categoryId){
-
-    const products =
-        allProducts.filter(
-            product =>
-                String(
-                    product.category_id
-                ) === String(categoryId)
-        );
-
-
-    const container =
-        document.getElementById(
-            "products-" + categoryId
-        );
-
-
-    if(!container){
-        return;
-    }
-
-
-    container.innerHTML =
-        products
-            .map(
-                productCard
-            )
-            .join("");
-
-
-    const button =
-        container
-            .closest(
-                ".category-section"
-            )
-            ?.querySelector(
-                ".category-see-all"
-            );
-
-
-    if(button){
-
-        button.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* =====================================================
-   SCROLL TO CATEGORY
-===================================================== */
-
-function scrollToCategory(categoryId){
-
-    const element =
-        document.getElementById(
-            "category-" + categoryId
-        );
-
-
-    if(element){
-
-        element.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-document
-    .getElementById("searchInput")
-    .addEventListener(
-        "input",
-        function(){
-
-            const search =
-                this.value
-                    .trim()
-                    .toLowerCase();
-
-
-            document
-                .querySelectorAll(
-                    ".product"
-                )
-                .forEach(
-                    product => {
-
-                        const name =
-                            (
-                                product
-                                    .dataset
-                                    .productName ||
-                                ""
-                            )
-                            .toLowerCase();
-
-
-                        if(
-                            !search ||
-                            name.includes(search)
-                        ){
-
-                            product.style.display =
-                                "";
-
-                        }else{
-
-                            product.style.display =
-                                "none";
-
-                        }
-
-                    }
-                );
-
-        }
-    );
-
-
-/* =====================================================
-   ORDER
-===================================================== */
-
-function orderProduct(
-    productName
-){
-
-    const phone =
-        "8801XXXXXXXXX";
-
-
-    const message =
-        "আসসালামু আলাইকুম, আমি " +
-        productName +
-        " অর্ডার করতে চাই।";
-
-
-    const url =
-        "https://wa.me/" +
-        phone +
-        "?text=" +
-        encodeURIComponent(
-            message
-        );
-
-
-    window.open(
-        url,
-        "_blank"
-    );
-
-}
-
-
-/* =====================================================
-   START EVERYTHING
-===================================================== */
-
-async function initShop(){
-
-    await Promise.all([
-        loadShopBanners(),
-        loadCategories(),
-        loadProducts()
-    ]);
-
-}
-
-
-initShop();
-
-<script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-"https://dxsqulngttrkcizylmnv.supabase.co";
-
-const SUPABASE_ANON_KEY =
-"sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
-
-const { createClient } = supabase;
-
-const db = createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-
-
-/* =====================================================
-   GLOBAL DATA
-===================================================== */
-
-let allCategories = [];
-let allProducts = [];
-
-let shopBanners = [];
-
-let bannerIndex = 0;
-let bannerTimer = null;
-
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHtml(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   IMAGE URL
-===================================================== */
-
-function getImageUrl(value){
-
-    if(!value) return "";
-
-    return String(value).trim();
-
-}
-
-
-/* =====================================================
-   PRODUCT IMAGE
-===================================================== */
-
-function getProductImage(product){
-
-    if(product.image_url){
-        return product.image_url;
-    }
-
-    if(Array.isArray(product.gallery) &&
-       product.gallery.length){
-
-        return product.gallery[0];
-
-    }
-
-    if(typeof product.gallery === "string"){
-
-        try{
-
-            const gallery =
-                JSON.parse(product.gallery);
-
-            if(Array.isArray(gallery) &&
-               gallery.length){
-
-                return gallery[0];
-
-            }
-
-        }catch(e){}
-
-    }
-
-    return "";
-
-}
-
-
-/* =====================================================
-   PRICE
-===================================================== */
-
-function formatPrice(value){
-
-    const number =
-        Number(value || 0);
-
-    return number.toLocaleString(
-        "en-BD",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
-
-}
-
-
-/* =====================================================
-   BANNER
-===================================================== */
-
-function renderBanners(){
-
-    const slider =
-        document.getElementById("bannerSlider");
-
-    const loading =
-        document.getElementById("bannerLoading");
-
-    const dots =
-        document.getElementById("bannerDots");
-
-    const prev =
-        document.getElementById("bannerPrev");
-
-    const next =
-        document.getElementById("bannerNext");
-
-
-    if(!slider) return;
-
-
-    slider
-        .querySelectorAll(".banner-slide")
-        .forEach(
-            el => el.remove()
-        );
-
-
-    dots.innerHTML = "";
-
-
-    if(!shopBanners.length){
-
-        loading.textContent =
-            "কোনো Active Banner নেই";
-
-        loading.style.display =
-            "flex";
-
-        prev.style.display =
-            "none";
-
-        next.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    loading.style.display =
-        "none";
-
-
-    const multiple =
-        shopBanners.length > 1;
-
-
-    prev.style.display =
-        multiple ? "block" : "none";
-
-    next.style.display =
-        multiple ? "block" : "none";
-
-    dots.style.display =
-        multiple ? "flex" : "none";
-
-
-    shopBanners.forEach(
-        (banner,index) => {
-
-            const slide =
-                document.createElement("div");
-
-            slide.className =
-                "banner-slide" +
-                (
-                    index === 0
-                    ? " active"
-                    : ""
-                );
-
-
-            const image =
-                getImageUrl(
-                    banner.image_url
-                );
-
-
-            const link =
-                escapeHtml(
-                    banner.button_link ||
-                    "#productsArea"
-                );
-
-
-            const title =
-                escapeHtml(
-                    banner.title ||
-                    "Balukona Shop"
-                );
-
-
-            if(image){
-
-                slide.innerHTML = `
-
-                    <a
-                        class="banner-image-link"
-                        href="${link}"
-                    >
-
-                        <img
-                            class="banner-image"
-                            src="${escapeHtml(image)}"
-                            alt="${title}"
-                            loading="${
-                                index === 0
-                                ? "eager"
-                                : "lazy"
-                            }"
-                        >
-
-                    </a>
-
-                `;
-
-            }else{
-
-                slide.innerHTML = `
-
-                    <div class="banner-placeholder">
-                        🖼️ Banner Image নেই
-                    </div>
-
-                `;
-
-            }
-
-
-            slider.insertBefore(
-                slide,
-                dots
-            );
-
-
-            if(multiple){
-
-                const dot =
-                    document.createElement("button");
-
-                dot.type =
-                    "button";
-
-                dot.className =
-                    "banner-dot" +
-                    (
-                        index === 0
-                        ? " active"
-                        : ""
-                    );
-
-                dot.addEventListener(
-                    "click",
-                    () => showBanner(index)
-                );
-
-                dots.appendChild(dot);
-
-            }
-
-        }
-    );
-
-
-    startBannerAutoSlide();
-
-}
-
-
-function showBanner(index){
-
-    if(!shopBanners.length) return;
-
-
-    bannerIndex =
-        (
-            index +
-            shopBanners.length
-        ) %
-        shopBanners.length;
-
-
-    document
-        .querySelectorAll(".banner-slide")
-        .forEach(
-            (slide,i) => {
-
-                slide.classList.toggle(
-                    "active",
-                    i === bannerIndex
-                );
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(".banner-dot")
-        .forEach(
-            (dot,i) => {
-
-                dot.classList.toggle(
-                    "active",
-                    i === bannerIndex
-                );
-
-            }
-        );
-
-
-    startBannerAutoSlide();
-
-}
-
-
-function nextBanner(){
-
-    showBanner(
-        bannerIndex + 1
-    );
-
-}
-
-
-function prevBanner(){
-
-    showBanner(
-        bannerIndex - 1
-    );
-
-}
-
-
-function startBannerAutoSlide(){
-
-    clearInterval(
-        bannerTimer
-    );
-
-
-    if(shopBanners.length > 1){
-
-        bannerTimer =
-            setInterval(
-                nextBanner,
-                5000
-            );
-
-    }
-
-}
-
-
-document
-    .getElementById("bannerNext")
-    ?.addEventListener(
-        "click",
-        nextBanner
-    );
-
-
-document
-    .getElementById("bannerPrev")
-    ?.addEventListener(
-        "click",
-        prevBanner
-    );
-
-
-async function loadBanners(){
-
-    try{
-
-        const {
-            data,
-            error
-        } = await db
-            .from("banners")
-            .select("*")
-            .eq(
-                "is_active",
-                true
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-
-        if(error) throw error;
-
-
-        shopBanners =
-            data || [];
-
-
-        renderBanners();
-
-
-    }catch(error){
-
-        console.error(
-            "Banner Error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CATEGORY
-===================================================== */
-
-async function loadCategories(){
-
-    const container =
-        document.getElementById(
-            "categoriesContainer"
-        );
-
-
-    try{
-
-        const {
-            data,
-            error
-        } = await db
-            .from("categories")
-            .select(
-                "id,name,image_url,description,sort_order,is_active,created_at"
-            )
-            .eq(
-                "is_active",
-                true
-            )
-            .order(
-                "sort_order",
-                {
-                    ascending:true
-                }
-            );
-
-
-        if(error) throw error;
-
-
-        allCategories =
-            data || [];
-
-
-        /* CATEGORY MENU */
-
-        if(!allCategories.length){
-
-            container.innerHTML = `
-
-                <div class="empty-box">
-
-                    কোনো Category পাওয়া যায়নি।
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        container.innerHTML =
-            allCategories
-                .map(
-                    category => {
-
-                        const image =
-                            getImageUrl(
-                                category.image_url
-                            );
-
-
-                        const name =
-                            escapeHtml(
-                                category.name
-                            );
-
-
-                        return `
-
-                            <div
-                                class="category"
-                                onclick="
-                                    scrollToCategory(
-                                        '${category.id}'
-                                    )
-                                "
-                            >
-
-                                <div
-                                    class="category-icon"
-                                >
-
-                                    ${
-                                        image
-
-                                        ? `
-
-                                            <img
-                                                src="${escapeHtml(image)}"
-                                                alt="${name}"
-                                            >
-
-                                          `
-
-                                        : `
-
-                                            <span>
-                                                📦
-                                            </span>
-
-                                          `
-                                    }
-
-                                </div>
-
-
-                                <p>
-                                    ${name}
-                                </p>
-
-                            </div>
-
-                        `;
-
-                    }
-                )
-                .join("");
-
-
-    }catch(error){
-
-        console.error(
-            "Category Error:",
-            error
-        );
-
-
-        container.innerHTML = `
-
-            <div class="empty-box">
-
-                ❌ Category লোড করা যায়নি।
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
-
-async function loadProducts(){
-
-    try{
-
-        const {
-            data,
-            error
-        } = await db
-            .from("products")
-            .select("*")
-            .eq(
-                "is_active",
-                true
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-
-        if(error) throw error;
-
-
-        allProducts =
-            data || [];
-
-
-    }catch(error){
-
-        console.error(
-            "Product Error:",
-            error
-        );
-
-
-        allProducts = [];
-
-    }
-
-}
-
-
-/* =====================================================
-   PRODUCT CARD
-===================================================== */
-
-function createProductCard(product){
-
-    const image =
-        getProductImage(product);
-
-
-    const name =
-        escapeHtml(
-            product.name ||
-            "পণ্য"
         );
 
 
@@ -3034,6 +1651,7 @@ function createProductCard(product){
 
 
     let stars = "";
+
 
     for(
         let i = 1;
@@ -3089,9 +1707,7 @@ function createProductCard(product){
 
                     : `
 
-                        <div
-                            class="product-placeholder"
-                        >
+                        <div class="product-placeholder">
                             🛍️
                         </div>
 
@@ -3185,19 +1801,20 @@ function createProductCard(product){
                             )
                         "
                     >
-
                         ▣ বিস্তারিত দেখুন
-
                     </button>
 
 
                     <button
                         class="cart"
                         type="button"
+                        onclick="
+                            orderProduct(
+                                '${name}'
+                            )
+                        "
                     >
-
                         🛒
-
                     </button>
 
                 </div>
@@ -3212,8 +1829,8 @@ function createProductCard(product){
 
 
 /* =====================================================
-   IMPORTANT:
-   CATEGORY অনুযায়ী PRODUCT সাজানো
+   ⭐ CATEGORY অনুযায়ী PRODUCT
+   ⭐ sort_order অনুযায়ী একটার পর একটা
 ===================================================== */
 
 function renderCategoryProducts(){
@@ -3222,9 +1839,6 @@ function renderCategoryProducts(){
         document.getElementById(
             "productsArea"
         );
-
-
-    if(!area) return;
 
 
     if(!allCategories.length){
@@ -3248,8 +1862,24 @@ function renderCategoryProducts(){
 
 
     /*
-       এখানে Category-এর sort_order অনুযায়ী
-       একটার পর একটা Section তৈরি হবে।
+       allCategories ইতোমধ্যে
+       sort_order ASC অনুযায়ী এসেছে।
+
+       তাই এখানে:
+
+       Category 1
+       ↓
+       Product
+       ↓
+       Category 2
+       ↓
+       Product
+       ↓
+       Category 3
+       ↓
+       Product
+
+       এভাবেই দেখাবে।
     */
 
 
@@ -3268,7 +1898,7 @@ function renderCategoryProducts(){
                 );
 
 
-            const categoryDescription =
+            const description =
                 escapeHtml(
                     category.description ||
                     "আপনার পছন্দের প্রোডাক্ট বেছে নিন"
@@ -3276,26 +1906,16 @@ function renderCategoryProducts(){
 
 
             /*
-               এই Category-এর Product বের করা
+               শুধু এই Category-এর Product
             */
 
-            const categoryProducts =
+            const products =
                 allProducts.filter(
-                    product => {
-
-                        return String(
+                    product =>
+                        String(
                             product.category_id
-                        ) === categoryId;
-
-                    }
+                        ) === categoryId
                 );
-
-
-            /*
-               প্রথম Category
-               তারপর দ্বিতীয় Category
-               তারপর তৃতীয় Category...
-            */
 
 
             html += `
@@ -3314,23 +1934,18 @@ function renderCategoryProducts(){
                         >
 
                             <h2>
-
                                 ${categoryName}
-
                             </h2>
 
-
                             <p>
-
-                                ${categoryDescription}
-
+                                ${description}
                             </p>
 
                         </div>
 
 
                         ${
-                            categoryProducts.length > 5
+                            products.length > 5
 
                             ? `
 
@@ -3343,9 +1958,7 @@ function renderCategoryProducts(){
                                         )
                                     "
                                 >
-
                                     সব দেখুন
-
                                 </button>
 
                               `
@@ -3358,7 +1971,7 @@ function renderCategoryProducts(){
 
 
                     ${
-                        categoryProducts.length
+                        products.length
 
                         ? `
 
@@ -3368,7 +1981,7 @@ function renderCategoryProducts(){
                             >
 
                                 ${
-                                    categoryProducts
+                                    products
                                         .slice(0,5)
                                         .map(
                                             createProductCard
@@ -3407,7 +2020,7 @@ function renderCategoryProducts(){
 
 
 /* =====================================================
-   SHOW ALL CATEGORY PRODUCTS
+   SHOW ALL
 ===================================================== */
 
 function showAllCategoryProducts(
@@ -3431,7 +2044,9 @@ function showAllCategoryProducts(
         );
 
 
-    if(!container) return;
+    if(!container){
+        return;
+    }
 
 
     container.innerHTML =
@@ -3501,54 +2116,50 @@ const searchInput =
     );
 
 
-if(searchInput){
+searchInput.addEventListener(
+    "input",
+    function(){
 
-    searchInput.addEventListener(
-        "input",
-        function(){
-
-            const search =
-                this.value
-                    .trim()
-                    .toLowerCase();
+        const search =
+            this.value
+                .trim()
+                .toLowerCase();
 
 
-            document
-                .querySelectorAll(
-                    ".product"
-                )
-                .forEach(
-                    product => {
+        document
+            .querySelectorAll(
+                ".product"
+            )
+            .forEach(
+                product => {
 
-                        const name =
-                            (
-                                product
-                                    .dataset
-                                    .productName ||
-                                ""
-                            )
-                            .toLowerCase();
+                    const name =
+                        (
+                            product
+                                .dataset
+                                .productName ||
+                            ""
+                        )
+                        .toLowerCase();
 
 
-                        product.style.display =
-                            (
-                                !search ||
-                                name.includes(search)
-                            )
-                            ? ""
-                            : "none";
+                    product.style.display =
+                        (
+                            !search ||
+                            name.includes(search)
+                        )
+                        ? ""
+                        : "none";
 
-                    }
-                );
+                }
+            );
 
-        }
-    );
-
-}
+    }
+);
 
 
 /* =====================================================
-   WHATSAPP ORDER
+   WHATSAPP
 ===================================================== */
 
 function orderProduct(
@@ -3589,16 +2200,11 @@ function orderProduct(
 async function initShop(){
 
     /*
-       খুব গুরুত্বপূর্ণ:
-
-       আগে Category লোড হবে
-       তারপর Product লোড হবে
-       তারপর Category অনুযায়ী Product দেখাবে।
-
-       এজন্য আগের "কোনো Category পাওয়া যায়নি"
-       সমস্যাটি আর হবে না।
+       প্রথমে Category লোড
+       তারপর Product লোড
+       তারপর Category অনুযায়ী Product সাজানো
+       শেষে Banner লোড
     */
-
 
     await loadCategories();
 
@@ -3606,7 +2212,7 @@ async function initShop(){
 
     renderCategoryProducts();
 
-    loadBanners();
+    await loadBanners();
 
 }
 
@@ -3618,5 +2224,6 @@ async function initShop(){
 initShop();
 
 </script>
+
 </body>
 </html>
