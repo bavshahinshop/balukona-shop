@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Balukona Shop - অনলাইন শপ</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -12,7 +13,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,"Noto Sans Bengali",sans-serif;
+    font-family:Arial,"Noto Sans Bengali","Noto Sans",sans-serif;
 }
 
 body{
@@ -25,10 +26,17 @@ a{
     color:inherit;
 }
 
-/* HEADER */
+button{
+    font-family:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
 .header{
     background:#fff;
-    height:70px;
+    min-height:70px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -50,7 +58,7 @@ a{
     height:43px;
     border-radius:50%;
     background:#3c9d3b;
-    color:white;
+    color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -92,12 +100,14 @@ a{
     display:flex;
     align-items:center;
     padding:0 13px;
+    background:#fff;
 }
 
 .search input{
     width:100%;
     border:0;
     outline:0;
+    margin-left:6px;
 }
 
 .icon-btn{
@@ -109,7 +119,10 @@ a{
     cursor:pointer;
 }
 
-/* HERO / BANNER SLIDER */
+/* =========================
+   BANNER SLIDER
+========================= */
+
 .hero-slider{
     width:94%;
     max-width:1400px;
@@ -137,18 +150,18 @@ a{
     animation:bannerFade .55s ease;
 }
 
+.banner-image-link{
+    display:block;
+    width:100%;
+    height:100%;
+}
+
 .banner-image{
     display:block;
     width:100%;
     height:100%;
     object-fit:cover;
     object-position:center;
-}
-
-.banner-image-link{
-    display:block;
-    width:100%;
-    height:100%;
 }
 
 .banner-placeholder,
@@ -195,8 +208,8 @@ a{
     position:absolute;
     top:50%;
     transform:translateY(-50%);
-    width:38px;
-    height:38px;
+    width:40px;
+    height:40px;
     border:1px solid #ddd;
     border-radius:50%;
     background:rgba(255,255,255,.9);
@@ -204,38 +217,31 @@ a{
     box-shadow:0 2px 10px rgba(0,0,0,.12);
     z-index:20;
     cursor:pointer;
-    font-size:24px;
+    font-size:25px;
     line-height:1;
 }
 
-.banner-prev{left:12px}
-.banner-next{right:12px}
+.banner-prev{
+    left:12px;
+}
+
+.banner-next{
+    right:12px;
+}
 
 @keyframes bannerFade{
-    from{opacity:.25}
-    to{opacity:1}
-}
-
-@media(max-width:700px){
-    .hero-slider{
-        width:94%;
-        aspect-ratio:1111 / 513;
-        min-height:160px;
-        border-radius:10px;
+    from{
+        opacity:.25;
     }
-
-    .banner-arrow{
-        width:32px;
-        height:32px;
-        font-size:20px;
-    }
-
-    .banner-dots{
-        bottom:7px;
+    to{
+        opacity:1;
     }
 }
 
-/* SECTION */
+/* =========================
+   COMMON SECTION
+========================= */
+
 .section{
     width:94%;
     max-width:1400px;
@@ -263,7 +269,57 @@ a{
     font-weight:bold;
 }
 
-/* CATEGORY */
+/* =========================
+   CATEGORY SECTION
+========================= */
+
+.category-section{
+    width:94%;
+    max-width:1400px;
+    margin:40px auto 55px;
+}
+
+.category-section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.category-title-wrap h2{
+    font-size:28px;
+    color:#101b14;
+}
+
+.category-title-wrap p{
+    color:#777;
+    margin-top:6px;
+}
+
+.category-products{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+}
+
+.category-see-all{
+    background:#173fe5;
+    color:#fff;
+    border:0;
+    padding:9px 22px;
+    border-radius:4px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.category-see-all:hover{
+    background:#1233bd;
+}
+
+/* =========================
+   CATEGORY ICONS
+========================= */
+
 .categories{
     display:grid;
     grid-template-columns:repeat(6,1fr);
@@ -271,12 +327,13 @@ a{
 }
 
 .category{
-    background:white;
+    background:#fff;
     border:1px solid #e3e3e3;
     border-radius:12px;
-    padding:22px 10px;
+    padding:20px 10px;
     text-align:center;
     transition:.2s;
+    cursor:pointer;
 }
 
 .category:hover{
@@ -285,135 +342,184 @@ a{
 }
 
 .category-icon{
-    width:60px;
-    height:60px;
+    width:64px;
+    height:64px;
     border-radius:50%;
     background:#edf7ed;
-    margin:auto;
+    margin:0 auto 10px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:28px;
-    margin-bottom:10px;
+    overflow:hidden;
+}
+
+.category-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.category-icon span{
+    font-size:29px;
 }
 
 .category p{
     font-weight:bold;
 }
 
-/* PRODUCTS */
-.products{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
+/* =========================
+   PRODUCT CARD
+========================= */
 
 .product{
     background:#fff;
-    border-radius:13px;
+    border-radius:10px;
     overflow:hidden;
-    border:1px solid #e7e7e7;
+    border:1px solid #e4e4e4;
     position:relative;
     transition:.25s;
 }
 
 .product:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 25px rgba(0,0,0,.09);
+    transform:translateY(-3px);
+    box-shadow:0 7px 20px rgba(0,0,0,.10);
 }
 
 .product-img{
-    height:290px;
-    background:linear-gradient(135deg,#eee,#ddd);
+    height:250px;
+    background:#eee;
     display:flex;
     align-items:center;
     justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.product-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.product-placeholder{
     font-size:55px;
     color:#aaa;
-    position:relative;
 }
 
 .discount{
     position:absolute;
-    top:10px;
-    left:10px;
+    top:9px;
+    left:9px;
     background:#ef3f52;
     color:#fff;
-    padding:5px 8px;
-    border-radius:6px;
-    font-size:12px;
+    padding:4px 7px;
+    border-radius:5px;
+    font-size:11px;
     font-weight:bold;
+    z-index:5;
 }
 
 .trending{
     position:absolute;
-    bottom:10px;
-    right:10px;
+    bottom:8px;
+    right:8px;
     background:#ff9f1c;
     color:#fff;
-    padding:5px 9px;
+    padding:4px 8px;
     border-radius:12px;
-    font-size:11px;
+    font-size:10px;
+    z-index:5;
 }
 
 .product-info{
-    padding:13px;
+    padding:10px;
 }
 
 .product-info h3{
-    font-size:16px;
-    height:42px;
+    font-size:14px;
+    line-height:1.35;
+    min-height:38px;
 }
 
 .rating{
     color:#f5a623;
-    font-size:13px;
-    margin:8px 0;
+    font-size:12px;
+    margin:6px 0;
 }
 
 .price{
     color:#29962c;
-    font-size:20px;
+    font-size:16px;
     font-weight:bold;
 }
 
 .old-price{
     color:#999;
     text-decoration:line-through;
-    font-size:13px;
-    margin-left:7px;
+    font-size:11px;
+    margin-left:5px;
 }
 
 .order-row{
     display:flex;
-    gap:7px;
-    margin-top:12px;
+    gap:5px;
+    margin-top:9px;
 }
 
 .order{
     flex:1;
     border:0;
-    background:#3c9d3b;
+    background:#173fd7;
     color:#fff;
-    padding:11px;
-    border-radius:7px;
+    padding:9px 5px;
+    border-radius:4px;
     cursor:pointer;
     font-weight:bold;
+    font-size:12px;
+}
+
+.order:hover{
+    background:#1233b9;
 }
 
 .cart{
-    width:45px;
-    border:1px solid #3c9d3b;
+    width:38px;
+    border:1px solid #173fd7;
     background:#fff;
-    color:#3c9d3b;
-    border-radius:7px;
+    color:#173fd7;
+    border-radius:4px;
     cursor:pointer;
 }
 
-/* OFFER */
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.loading-box{
+    text-align:center;
+    padding:35px;
+    color:#777;
+    background:#fff;
+    border-radius:10px;
+    border:1px solid #eee;
+}
+
+.empty-box{
+    padding:30px;
+    text-align:center;
+    color:#888;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:10px;
+}
+
+/* =========================
+   OFFER
+========================= */
+
 .offer{
     background:linear-gradient(100deg,#388e3c,#79bd57);
-    color:white;
+    color:#fff;
     border-radius:15px;
     padding:35px 45px;
     display:flex;
@@ -434,7 +540,10 @@ a{
     font-weight:bold;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
+
 footer{
     background:#17251b;
     color:#fff;
@@ -465,7 +574,21 @@ footer p{
     color:#aaa;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1100px){
+
+    .category-products{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .categories{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
 @media(max-width:900px){
 
     .nav{
@@ -476,25 +599,12 @@ footer p{
         width:120px;
     }
 
-    .hero{
-        height:auto;
-        padding:35px 25px;
-    }
-
-    .hero-content h1{
-        font-size:34px;
-    }
-
-    .hero-model{
-        display:none;
-    }
-
     .categories{
         grid-template-columns:repeat(3,1fr);
     }
 
-    .products{
-        grid-template-columns:repeat(2,1fr);
+    .category-products{
+        grid-template-columns:repeat(3,1fr);
     }
 
     .footer-grid{
@@ -502,7 +612,7 @@ footer p{
     }
 }
 
-@media(max-width:550px){
+@media(max-width:650px){
 
     .header{
         padding:0 15px;
@@ -510,6 +620,11 @@ footer p{
 
     .logo-text h2{
         font-size:17px;
+    }
+
+    .logo-icon{
+        width:38px;
+        height:38px;
     }
 
     .search{
@@ -521,17 +636,57 @@ footer p{
         display:none;
     }
 
-    .section{
+    .hero-slider{
+        width:94%;
+        min-height:160px;
+        border-radius:10px;
+    }
+
+    .banner-arrow{
+        width:32px;
+        height:32px;
+        font-size:20px;
+    }
+
+    .section,
+    .category-section{
         width:92%;
     }
 
     .categories{
         grid-template-columns:repeat(3,1fr);
+        gap:8px;
     }
 
-    .products{
+    .category{
+        padding:15px 5px;
+    }
+
+    .category-icon{
+        width:50px;
+        height:50px;
+    }
+
+    .category p{
+        font-size:13px;
+    }
+
+    .category-section-head{
+        align-items:flex-end;
+    }
+
+    .category-title-wrap h2{
+        font-size:21px;
+    }
+
+    .category-see-all{
+        padding:7px 12px;
+        font-size:11px;
+    }
+
+    .category-products{
         grid-template-columns:repeat(2,1fr);
-        gap:10px;
+        gap:8px;
     }
 
     .product-img{
@@ -539,24 +694,29 @@ footer p{
     }
 
     .product-info{
-        padding:9px;
+        padding:8px;
     }
 
     .product-info h3{
-        font-size:13px;
+        font-size:12px;
     }
 
     .price{
-        font-size:17px;
+        font-size:15px;
     }
 
-    .hero-content h1{
-        font-size:30px;
+    .order{
+        font-size:11px;
+        padding:8px 3px;
     }
 
     .offer{
         padding:25px;
         display:block;
+    }
+
+    .offer h2{
+        font-size:24px;
     }
 
     .offer-btn{
@@ -568,16 +728,35 @@ footer p{
         grid-template-columns:1fr;
     }
 }
+
+@media(max-width:400px){
+
+    .categories{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .category-products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .product-img{
+        height:165px;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
+
 <header class="header">
 
     <div class="logo">
         <div class="logo-icon">B</div>
+
         <div class="logo-text">
             <h2>বালুকনা শপ</h2>
             <small>BALUKONA SHOP</small>
@@ -586,78 +765,90 @@ footer p{
 
     <nav class="nav">
         <a href="#">হোম</a>
-        <a href="#products">শপ</a>
+        <a href="#allCategories">ক্যাটাগরি</a>
+        <a href="#productsArea">শপ</a>
         <a href="#contact">যোগাযোগ</a>
         <a href="#about">আমাদের সম্পর্কে</a>
-        <a href="#">পলিসি</a>
     </nav>
 
     <div class="header-right">
+
         <div class="search">
             🔍
-            <input type="text" placeholder="পণ্য খুঁজুন...">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="পণ্য খুঁজুন..."
+            >
         </div>
 
-        <button class="icon-btn">👤</button>
-        <button class="icon-btn">🛒</button>
+        <button class="icon-btn" type="button">👤</button>
+
+        <button class="icon-btn" type="button">🛒</button>
+
     </div>
 
 </header>
 
 
-<!-- HERO / BANNER SLIDER -->
+<!-- =========================
+     BANNER SLIDER
+========================= -->
+
 <section class="hero-slider" id="bannerSlider">
+
     <div class="banner-loading" id="bannerLoading">
         Banner লোড হচ্ছে...
     </div>
 
-    <button class="banner-arrow banner-prev" id="bannerPrev" type="button" aria-label="Previous Banner">‹</button>
-    <button class="banner-arrow banner-next" id="bannerNext" type="button" aria-label="Next Banner">›</button>
+    <button
+        class="banner-arrow banner-prev"
+        id="bannerPrev"
+        type="button"
+        aria-label="Previous Banner"
+    >
+        ‹
+    </button>
+
+    <button
+        class="banner-arrow banner-next"
+        id="bannerNext"
+        type="button"
+        aria-label="Next Banner"
+    >
+        ›
+    </button>
 
     <div class="banner-dots" id="bannerDots"></div>
+
 </section>
 
 
-<!-- CATEGORY -->
-<section class="section">
+<!-- =========================
+     ALL CATEGORIES
+========================= -->
+
+<section class="section" id="allCategories">
 
     <div class="section-head">
+
         <div>
             <h2>ক্যাটাগরি সমূহ</h2>
-            <p>আপনার পছন্দের ক্যাটাগরি বেছে নিন</p>
+
+            <p>
+                আপনার পছন্দের ক্যাটাগরি বেছে নিন
+            </p>
         </div>
+
     </div>
 
-    <div class="categories">
+    <div
+        class="categories"
+        id="categoriesContainer"
+    >
 
-        <div class="category">
-            <div class="category-icon">👗</div>
-            <p>থ্রি-পিস</p>
-        </div>
-
-        <div class="category">
-            <div class="category-icon">👚</div>
-            <p>গাউন</p>
-        </div>
-
-        <div class="category">
-            <div class="category-icon">🥻</div>
-            <p>শাড়ি</p>
-        </div>
-
-        <div class="category">
-            <div class="category-icon">👠</div>
-            <p>পার্টি ড্রেস</p>
-        </div>
-
-        <div class="category">
-            <div class="category-icon">👕</div>
-            <p>টি-শার্ট</p>
-        </div>
-
-        <div class="category">
-            <div class="category-icon">👜</div>
-            <p>অন্যান্য</p>
+        <div class="loading-box">
+            ক্যাটাগরি লোড হচ্ছে...
         </div>
 
     </div>
@@ -665,127 +856,43 @@ footer p{
 </section>
 
 
-<!-- PRODUCTS -->
-<section class="section" id="products">
+<!-- =========================
+     PRODUCTS BY CATEGORY
+========================= -->
 
-    <div class="section-head">
-        <div>
-            <h2>🔥 নতুন পণ্য</h2>
-            <p>সর্বশেষ কালেকশন থেকে পছন্দ করুন</p>
-        </div>
+<div id="productsArea">
 
-        <a class="see-all" href="#">সব দেখুন →</a>
+    <div class="loading-box section">
+        পণ্য লোড হচ্ছে...
     </div>
 
-
-    <div class="products">
-
-        <div class="product">
-            <div class="product-img">
-                <span class="discount">-21%</span>
-                👗
-                <span class="trending">🔥 Trending</span>
-            </div>
-
-            <div class="product-info">
-                <h3>প্রিমিয়াম থ্রি-পিস কালেকশন</h3>
-                <div class="rating">★★★★★ 4.8</div>
-                <span class="price">৳990</span>
-                <span class="old-price">৳1250</span>
-
-                <div class="order-row">
-                    <button class="order" onclick="orderProduct('প্রিমিয়াম থ্রি-পিস')">
-                        ⚡ অর্ডার করুন
-                    </button>
-                    <button class="cart">🛒</button>
-                </div>
-            </div>
-        </div>
+</div>
 
 
-        <div class="product">
-            <div class="product-img">
-                <span class="discount">-30%</span>
-                👗
-                <span class="trending">🔥 Trending</span>
-            </div>
+<!-- =========================
+     OFFER
+========================= -->
 
-            <div class="product-info">
-                <h3>সুন্দর ডিজাইনের পার্টি ড্রেস</h3>
-                <div class="rating">★★★★★ 4.7</div>
-                <span class="price">৳1190</span>
-                <span class="old-price">৳1700</span>
-
-                <div class="order-row">
-                    <button class="order" onclick="orderProduct('পার্টি ড্রেস')">
-                        ⚡ অর্ডার করুন
-                    </button>
-                    <button class="cart">🛒</button>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="product">
-            <div class="product-img">
-                <span class="discount">-25%</span>
-                🥻
-            </div>
-
-            <div class="product-info">
-                <h3>প্রিমিয়াম শাড়ি কালেকশন</h3>
-                <div class="rating">★★★★★ 4.9</div>
-                <span class="price">৳1450</span>
-                <span class="old-price">৳1900</span>
-
-                <div class="order-row">
-                    <button class="order" onclick="orderProduct('প্রিমিয়াম শাড়ি')">
-                        ⚡ অর্ডার করুন
-                    </button>
-                    <button class="cart">🛒</button>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="product">
-            <div class="product-img">
-                <span class="discount">-20%</span>
-                👚
-                <span class="trending">🔥 Trending</span>
-            </div>
-
-            <div class="product-info">
-                <h3>স্টাইলিশ গাউন কালেকশন</h3>
-                <div class="rating">★★★★★ 4.8</div>
-                <span class="price">৳1590</span>
-                <span class="old-price">৳1990</span>
-
-                <div class="order-row">
-                    <button class="order" onclick="orderProduct('স্টাইলিশ গাউন')">
-                        ⚡ অর্ডার করুন
-                    </button>
-                    <button class="cart">🛒</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- OFFER -->
 <section class="section">
 
     <div class="offer">
 
         <div>
-            <h2>🎉 বিশেষ অফার চলছে!</h2>
-            <p>আজকের অর্ডারে আকর্ষণীয় ছাড় এবং দ্রুত ডেলিভারি।</p>
+
+            <h2>
+                🎉 বিশেষ অফার চলছে!
+            </h2>
+
+            <p>
+                আজকের অর্ডারে আকর্ষণীয় ছাড় এবং দ্রুত ডেলিভারি।
+            </p>
+
         </div>
 
-        <a href="#products" class="offer-btn">
+        <a
+            href="#productsArea"
+            class="offer-btn"
+        >
             অফার দেখুন →
         </a>
 
@@ -794,210 +901,1441 @@ footer p{
 </section>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer id="contact">
 
     <div class="footer-grid">
 
         <div>
-            <h3>🛍️ বালুকনা শপ</h3>
+
+            <h3>
+                🛍️ বালুকনা শপ
+            </h3>
+
             <p>
                 আপনার পছন্দের মানসম্মত পণ্য
                 সাশ্রয়ী দামে পৌঁছে দিতে আমরা প্রতিশ্রুতিবদ্ধ।
             </p>
+
         </div>
 
-        <div>
-            <h3>গুরুত্বপূর্ণ লিংক</h3>
-            <p>হোম</p>
-            <p>শপ</p>
-            <p>আমাদের সম্পর্কে</p>
-        </div>
 
         <div>
-            <h3>সহায়তা</h3>
-            <p>যোগাযোগ</p>
-            <p>রিটার্ন পলিসি</p>
-            <p>ডেলিভারি তথ্য</p>
+
+            <h3>
+                গুরুত্বপূর্ণ লিংক
+            </h3>
+
+            <p>
+                <a href="#">
+                    হোম
+                </a>
+            </p>
+
+            <p>
+                <a href="#allCategories">
+                    ক্যাটাগরি
+                </a>
+            </p>
+
+            <p>
+                <a href="#productsArea">
+                    শপ
+                </a>
+            </p>
+
         </div>
 
+
         <div>
-            <h3>যোগাযোগ</h3>
-            <p>📞 01XXXXXXXXX</p>
-            <p>📧 info@balukonashop.com</p>
-            <p>📍 বাংলাদেশ</p>
+
+            <h3>
+                সহায়তা
+            </h3>
+
+            <p>
+                যোগাযোগ
+            </p>
+
+            <p>
+                রিটার্ন পলিসি
+            </p>
+
+            <p>
+                ডেলিভারি তথ্য
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                যোগাযোগ
+            </h3>
+
+            <p>
+                📞 01XXXXXXXXX
+            </p>
+
+            <p>
+                📧 info@balukonashop.com
+            </p>
+
+            <p>
+                📍 বাংলাদেশ
+            </p>
+
         </div>
 
     </div>
 
+
     <div class="copyright">
+
         © 2026 Balukona Shop — সর্বস্বত্ব সংরক্ষিত।
+
     </div>
 
 </footer>
 
 
 <script>
-/* =========================
-   SUPABASE
-   ========================= */
-const SUPABASE_URL = "https://dxsqulngttrkcizylmnv.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://dxsqulngttrkcizylmnv.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_kPs6jnDkiNlMjw4CBxm2ww_yyRBdHe4";
+
+const {
+    createClient
+} = supabase;
+
+const db =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
-/* =========================
-   BANNER AUTO SLIDER
-   ========================= */
-let shopBanners = [];
-let bannerIndex = 0;
-let bannerTimer = null;
+/* =====================================================
+   COMMON HELPERS
+===================================================== */
 
-function bannerEscape(value){
+function escapeHtml(value){
+
     return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+
 }
 
+
+function money(value){
+
+    const number =
+        Number(value || 0);
+
+    return number.toLocaleString(
+        "en-BD",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    ) + " BDT";
+
+}
+
+
+function getImageUrl(value){
+
+    if(!value){
+        return "";
+    }
+
+    return String(value).trim();
+
+}
+
+
+/* =====================================================
+   BANNER SLIDER
+===================================================== */
+
+let shopBanners = [];
+
+let bannerIndex = 0;
+
+let bannerTimer = null;
+
+
 function renderBanners(){
-    const slider = document.getElementById("bannerSlider");
-    const loading = document.getElementById("bannerLoading");
-    const dots = document.getElementById("bannerDots");
 
-    if(!slider) return;
+    const slider =
+        document.getElementById(
+            "bannerSlider"
+        );
 
-    slider.querySelectorAll(".banner-slide").forEach(el => el.remove());
-    dots.innerHTML = "";
+    const loading =
+        document.getElementById(
+            "bannerLoading"
+        );
 
-    if(!shopBanners.length){
-        loading.textContent = "কোনো Active Banner নেই";
-        loading.style.display = "flex";
-        document.getElementById("bannerPrev").style.display = "none";
-        document.getElementById("bannerNext").style.display = "none";
+    const dots =
+        document.getElementById(
+            "bannerDots"
+        );
+
+    const prev =
+        document.getElementById(
+            "bannerPrev"
+        );
+
+    const next =
+        document.getElementById(
+            "bannerNext"
+        );
+
+
+    if(!slider){
         return;
     }
 
-    loading.style.display = "none";
 
-    const multiple = shopBanners.length > 1;
-    document.getElementById("bannerPrev").style.display = multiple ? "block" : "none";
-    document.getElementById("bannerNext").style.display = multiple ? "block" : "none";
-    dots.style.display = multiple ? "flex" : "none";
+    slider
+        .querySelectorAll(
+            ".banner-slide"
+        )
+        .forEach(
+            el => el.remove()
+        );
 
-    shopBanners.forEach((banner, index) => {
-        const slide = document.createElement("div");
-        slide.className = "banner-slide" + (index === 0 ? " active" : "");
 
-        const image = bannerEscape(banner.image_url || "");
-        const link = bannerEscape(banner.button_link || "#products");
-        const title = bannerEscape(banner.title || "Balukona Shop Banner");
+    dots.innerHTML = "";
 
-        slide.innerHTML = image
-            ? `<a class="banner-image-link" href="${link}">
-                   <img class="banner-image" src="${image}" alt="${title}" loading="${index === 0 ? "eager" : "lazy"}">
-               </a>`
-            : `<div class="banner-placeholder">🖼️ Banner Image নেই</div>`;
 
-        slider.insertBefore(slide, dots);
+    if(!shopBanners.length){
 
-        if(multiple){
-            const dot = document.createElement("button");
-            dot.type = "button";
-            dot.className = "banner-dot" + (index === 0 ? " active" : "");
-            dot.setAttribute("aria-label", "Banner " + (index + 1));
-            dot.addEventListener("click", () => showBanner(index));
-            dots.appendChild(dot);
+        loading.textContent =
+            "কোনো Active Banner নেই";
+
+        loading.style.display =
+            "flex";
+
+        prev.style.display =
+            "none";
+
+        next.style.display =
+            "none";
+
+        return;
+    }
+
+
+    loading.style.display =
+        "none";
+
+
+    const multiple =
+        shopBanners.length > 1;
+
+
+    prev.style.display =
+        multiple ? "block" : "none";
+
+    next.style.display =
+        multiple ? "block" : "none";
+
+    dots.style.display =
+        multiple ? "flex" : "none";
+
+
+    shopBanners.forEach(
+        (banner,index) => {
+
+            const slide =
+                document.createElement(
+                    "div"
+                );
+
+            slide.className =
+                "banner-slide" +
+                (
+                    index === 0
+                    ? " active"
+                    : ""
+                );
+
+
+            const image =
+                getImageUrl(
+                    banner.image_url
+                );
+
+
+            const link =
+                escapeHtml(
+                    banner.button_link ||
+                    "#productsArea"
+                );
+
+
+            const title =
+                escapeHtml(
+                    banner.title ||
+                    "Balukona Shop Banner"
+                );
+
+
+            if(image){
+
+                slide.innerHTML = `
+
+                    <a
+                        class="banner-image-link"
+                        href="${link}"
+                    >
+
+                        <img
+                            class="banner-image"
+                            src="${escapeHtml(image)}"
+                            alt="${title}"
+                            loading="${
+                                index === 0
+                                ? "eager"
+                                : "lazy"
+                            }"
+                        >
+
+                    </a>
+
+                `;
+
+            }else{
+
+                slide.innerHTML = `
+
+                    <div class="banner-placeholder">
+
+                        🖼️ Banner Image নেই
+
+                    </div>
+
+                `;
+
+            }
+
+
+            slider.insertBefore(
+                slide,
+                dots
+            );
+
+
+            if(multiple){
+
+                const dot =
+                    document.createElement(
+                        "button"
+                    );
+
+                dot.type =
+                    "button";
+
+                dot.className =
+                    "banner-dot" +
+                    (
+                        index === 0
+                        ? " active"
+                        : ""
+                    );
+
+                dot.setAttribute(
+                    "aria-label",
+                    "Banner " +
+                    (index + 1)
+                );
+
+
+                dot.addEventListener(
+                    "click",
+                    () => showBanner(index)
+                );
+
+
+                dots.appendChild(dot);
+
+            }
+
         }
-    });
+    );
+
 
     startBannerAutoSlide();
+
 }
+
 
 function showBanner(index){
-    if(!shopBanners.length) return;
 
-    bannerIndex = (index + shopBanners.length) % shopBanners.length;
+    if(!shopBanners.length){
+        return;
+    }
 
-    document.querySelectorAll(".banner-slide").forEach((slide, i) => {
-        slide.classList.toggle("active", i === bannerIndex);
-    });
 
-    document.querySelectorAll(".banner-dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === bannerIndex);
-    });
+    bannerIndex =
+        (
+            index +
+            shopBanners.length
+        ) %
+        shopBanners.length;
+
+
+    document
+        .querySelectorAll(
+            ".banner-slide"
+        )
+        .forEach(
+            (slide,i) => {
+
+                slide.classList.toggle(
+                    "active",
+                    i === bannerIndex
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            ".banner-dot"
+        )
+        .forEach(
+            (dot,i) => {
+
+                dot.classList.toggle(
+                    "active",
+                    i === bannerIndex
+                );
+
+            }
+        );
+
 
     startBannerAutoSlide();
+
 }
+
 
 function nextBanner(){
-    showBanner(bannerIndex + 1);
+
+    showBanner(
+        bannerIndex + 1
+    );
+
 }
+
 
 function prevBanner(){
-    showBanner(bannerIndex - 1);
+
+    showBanner(
+        bannerIndex - 1
+    );
+
 }
+
 
 function startBannerAutoSlide(){
-    clearInterval(bannerTimer);
+
+    clearInterval(
+        bannerTimer
+    );
+
 
     if(shopBanners.length > 1){
-        bannerTimer = setInterval(nextBanner, 5000);
+
+        bannerTimer =
+            setInterval(
+                nextBanner,
+                5000
+            );
+
     }
+
 }
 
-document.getElementById("bannerNext").addEventListener("click", nextBanner);
-document.getElementById("bannerPrev").addEventListener("click", prevBanner);
+
+document
+    .getElementById("bannerNext")
+    .addEventListener(
+        "click",
+        nextBanner
+    );
+
+
+document
+    .getElementById("bannerPrev")
+    .addEventListener(
+        "click",
+        prevBanner
+    );
+
 
 async function loadShopBanners(){
-    const loading = document.getElementById("bannerLoading");
+
+    const loading =
+        document.getElementById(
+            "bannerLoading"
+        );
+
 
     try{
-        const { data, error } = await db
+
+        const {
+            data,
+            error
+        } = await db
             .from("banners")
-            .select("id,title,subtitle,image_url,button_text,button_link,is_active,created_at")
-            .eq("is_active", true)
-            .order("created_at", { ascending: false });
+            .select(
+                "id,title,subtitle,image_url,button_text,button_link,is_active,created_at"
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
 
-        if(error) throw error;
 
-        shopBanners = data || [];
-        bannerIndex = 0;
+        if(error){
+            throw error;
+        }
+
+
+        shopBanners =
+            data || [];
+
+
+        bannerIndex =
+            0;
+
+
         renderBanners();
 
+
     }catch(error){
-        console.error("Banner load error:", error);
-        loading.textContent = "Banner লোড করা যায়নি";
-        loading.style.display = "flex";
+
+        console.error(
+            "Banner load error:",
+            error
+        );
+
+
+        loading.textContent =
+            "Banner লোড করা যায়নি";
+
+        loading.style.display =
+            "flex";
+
     }
+
 }
 
-loadShopBanners();
+
+/* =====================================================
+   CATEGORY DATA
+===================================================== */
+
+let allCategories = [];
+
+let allProducts = [];
 
 
-/* =========================
-   ORDER / WHATSAPP
-   ========================= */
-function orderProduct(productName){
+/* =====================================================
+   LOAD CATEGORIES
+===================================================== */
 
-    const phone = "8801XXXXXXXXX";
+async function loadCategories(){
+
+    const container =
+        document.getElementById(
+            "categoriesContainer"
+        );
+
+
+    try{
+
+        const {
+            data,
+            error
+        } = await db
+            .from("categories")
+            .select(
+                "id,name,image_url,description,sort_order,is_active,created_at"
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "sort_order",
+                {
+                    ascending:true
+                }
+            );
+
+
+        if(error){
+            throw error;
+        }
+
+
+        allCategories =
+            data || [];
+
+
+        renderCategoryMenu();
+
+
+    }catch(error){
+
+        console.error(
+            "Category load error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="empty-box">
+
+                ❌ ক্যাটাগরি লোড করা যায়নি।
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   CATEGORY MENU
+===================================================== */
+
+function renderCategoryMenu(){
+
+    const container =
+        document.getElementById(
+            "categoriesContainer"
+        );
+
+
+    if(!allCategories.length){
+
+        container.innerHTML = `
+
+            <div class="empty-box">
+
+                কোনো ক্যাটাগরি পাওয়া যায়নি।
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        allCategories
+            .map(
+                category => {
+
+                    const id =
+                        String(
+                            category.id
+                        );
+
+
+                    const name =
+                        escapeHtml(
+                            category.name
+                        );
+
+
+                    const image =
+                        getImageUrl(
+                            category.image_url
+                        );
+
+
+                    return `
+
+                        <div
+                            class="category"
+                            onclick="scrollToCategory('${id}')"
+                        >
+
+                            <div class="category-icon">
+
+                                ${
+                                    image
+
+                                    ? `
+
+                                        <img
+                                            src="${escapeHtml(image)}"
+                                            alt="${name}"
+                                            loading="lazy"
+                                        >
+
+                                      `
+
+                                    : `
+
+                                        <span>
+                                            📦
+                                        </span>
+
+                                      `
+                                }
+
+                            </div>
+
+
+                            <p>
+                                ${name}
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+async function loadProducts(){
+
+    const area =
+        document.getElementById(
+            "productsArea"
+        );
+
+
+    try{
+
+        const {
+            data,
+            error
+        } = await db
+            .from("products")
+            .select(
+                `
+                id,
+                name,
+                slug,
+                category_id,
+                image_url,
+                gallery,
+                description,
+                regular_price,
+                sale_price,
+                discount_percent,
+                sizes,
+                colors,
+                stock,
+                rating,
+                review_count,
+                sold_count,
+                is_featured,
+                is_trending,
+                is_active,
+                created_at
+                `
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+
+        if(error){
+            throw error;
+        }
+
+
+        allProducts =
+            data || [];
+
+
+        renderProductsByCategory();
+
+
+    }catch(error){
+
+        console.error(
+            "Product load error:",
+            error
+        );
+
+
+        area.innerHTML = `
+
+            <div class="empty-box section">
+
+                ❌ পণ্য লোড করা যায়নি।
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PRODUCT IMAGE
+===================================================== */
+
+function getProductImage(product){
+
+    if(product.image_url){
+        return product.image_url;
+    }
+
+
+    if(
+        Array.isArray(product.gallery) &&
+        product.gallery.length
+    ){
+
+        return product.gallery[0];
+
+    }
+
+
+    if(
+        typeof product.gallery === "string"
+    ){
+
+        try{
+
+            const gallery =
+                JSON.parse(
+                    product.gallery
+                );
+
+
+            if(
+                Array.isArray(gallery) &&
+                gallery.length
+            ){
+
+                return gallery[0];
+
+            }
+
+        }catch(e){}
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   PRODUCT CARD
+===================================================== */
+
+function productCard(product){
+
+    const name =
+        escapeHtml(
+            product.name ||
+            "পণ্য"
+        );
+
+
+    const image =
+        getProductImage(
+            product
+        );
+
+
+    const regular =
+        Number(
+            product.regular_price || 0
+        );
+
+
+    const sale =
+        Number(
+            product.sale_price || 0
+        );
+
+
+    const currentPrice =
+        sale > 0
+        ? sale
+        : regular;
+
+
+    const discount =
+        Number(
+            product.discount_percent || 0
+        );
+
+
+    const rating =
+        Number(
+            product.rating || 0
+        );
+
+
+    let stars =
+        "";
+
+
+    for(
+        let i = 1;
+        i <= 5;
+        i++
+    ){
+
+        stars +=
+            i <= Math.round(rating)
+            ? "★"
+            : "☆";
+
+    }
+
+
+    const imageHtml =
+        image
+
+        ? `
+
+            <img
+                src="${escapeHtml(image)}"
+                alt="${name}"
+                loading="lazy"
+            >
+
+          `
+
+        : `
+
+            <div class="product-placeholder">
+                🛍️
+            </div>
+
+          `;
+
+
+    return `
+
+        <div
+            class="product"
+            data-product-name="${name}"
+        >
+
+            <div class="product-img">
+
+                ${
+                    discount > 0
+
+                    ? `
+
+                        <span class="discount">
+                            -${discount}%
+                        </span>
+
+                      `
+
+                    : ""
+
+                }
+
+
+                ${imageHtml}
+
+
+                ${
+                    product.is_trending
+
+                    ? `
+
+                        <span class="trending">
+                            🔥 Trending
+                        </span>
+
+                      `
+
+                    : ""
+
+                }
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    ${name}
+                </h3>
+
+
+                <div class="rating">
+
+                    ${stars}
+
+                    ${
+                        rating > 0
+                        ? " " + rating.toFixed(1)
+                        : ""
+                    }
+
+                </div>
+
+
+                <span class="price">
+
+                    From Tk ${money(currentPrice)}
+
+                </span>
+
+
+                ${
+                    sale > 0 &&
+                    regular > sale
+
+                    ? `
+
+                        <span class="old-price">
+                            Tk ${money(regular)}
+                        </span>
+
+                      `
+
+                    : ""
+
+                }
+
+
+                <div class="order-row">
+
+                    <button
+                        class="order"
+                        onclick="orderProduct('${escapeHtml(product.name)}')"
+                    >
+                        ▣ বিস্তারিত দেখুন
+                    </button>
+
+
+                    <button
+                        class="cart"
+                        type="button"
+                        onclick="orderProduct('${escapeHtml(product.name)}')"
+                    >
+                        🛒
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS CATEGORY BY CATEGORY
+===================================================== */
+
+function renderProductsByCategory(){
+
+    const area =
+        document.getElementById(
+            "productsArea"
+        );
+
+
+    if(!allCategories.length){
+
+        area.innerHTML = `
+
+            <div class="empty-box section">
+
+                কোনো Category পাওয়া যায়নি।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    allCategories.forEach(
+        (category,index) => {
+
+            const categoryId =
+                String(
+                    category.id
+                );
+
+
+            const categoryName =
+                escapeHtml(
+                    category.name
+                );
+
+
+            const description =
+                escapeHtml(
+                    category.description ||
+                    "আপনার পছন্দের প্রোডাক্ট বেছে নিন"
+                );
+
+
+            const products =
+                allProducts.filter(
+                    product =>
+                        String(
+                            product.category_id
+                        ) === categoryId
+                );
+
+
+            const sectionId =
+                "category-" +
+                categoryId;
+
+
+            html += `
+
+                <section
+                    class="category-section"
+                    id="${sectionId}"
+                >
+
+                    <div
+                        class="category-section-head"
+                    >
+
+                        <div
+                            class="category-title-wrap"
+                        >
+
+                            <h2>
+                                ${categoryName}
+                            </h2>
+
+                            <p>
+                                ${description}
+                            </p>
+
+                        </div>
+
+
+                        ${
+                            products.length > 5
+
+                            ? `
+
+                                <button
+                                    class="category-see-all"
+                                    type="button"
+                                    onclick="showCategoryProducts('${categoryId}')"
+                                >
+                                    সব দেখুন
+                                </button>
+
+                              `
+
+                            : ""
+
+                        }
+
+                    </div>
+
+
+                    ${
+                        products.length
+
+                        ? `
+
+                            <div
+                                class="category-products"
+                                id="products-${categoryId}"
+                            >
+
+                                ${
+                                    products
+                                        .slice(0,5)
+                                        .map(
+                                            productCard
+                                        )
+                                        .join("")
+                                }
+
+                            </div>
+
+                          `
+
+                        : `
+
+                            <div class="empty-box">
+
+                                এই ক্যাটাগরিতে এখনো কোনো পণ্য নেই।
+
+                            </div>
+
+                          `
+
+                    }
+
+                </section>
+
+            `;
+
+        }
+    );
+
+
+    area.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   SHOW ALL PRODUCTS OF CATEGORY
+===================================================== */
+
+function showCategoryProducts(categoryId){
+
+    const products =
+        allProducts.filter(
+            product =>
+                String(
+                    product.category_id
+                ) === String(categoryId)
+        );
+
+
+    const container =
+        document.getElementById(
+            "products-" + categoryId
+        );
+
+
+    if(!container){
+        return;
+    }
+
+
+    container.innerHTML =
+        products
+            .map(
+                productCard
+            )
+            .join("");
+
+
+    const button =
+        container
+            .closest(
+                ".category-section"
+            )
+            ?.querySelector(
+                ".category-see-all"
+            );
+
+
+    if(button){
+
+        button.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   SCROLL TO CATEGORY
+===================================================== */
+
+function scrollToCategory(categoryId){
+
+    const element =
+        document.getElementById(
+            "category-" + categoryId
+        );
+
+
+    if(element){
+
+        element.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document
+    .getElementById("searchInput")
+    .addEventListener(
+        "input",
+        function(){
+
+            const search =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            document
+                .querySelectorAll(
+                    ".product"
+                )
+                .forEach(
+                    product => {
+
+                        const name =
+                            (
+                                product
+                                    .dataset
+                                    .productName ||
+                                ""
+                            )
+                            .toLowerCase();
+
+
+                        if(
+                            !search ||
+                            name.includes(search)
+                        ){
+
+                            product.style.display =
+                                "";
+
+                        }else{
+
+                            product.style.display =
+                                "none";
+
+                        }
+
+                    }
+                );
+
+        }
+    );
+
+
+/* =====================================================
+   ORDER
+===================================================== */
+
+function orderProduct(
+    productName
+){
+
+    const phone =
+        "8801XXXXXXXXX";
+
 
     const message =
         "আসসালামু আলাইকুম, আমি " +
         productName +
         " অর্ডার করতে চাই।";
 
+
     const url =
         "https://wa.me/" +
         phone +
         "?text=" +
-        encodeURIComponent(message);
+        encodeURIComponent(
+            message
+        );
 
-    window.open(url,"_blank");
+
+    window.open(
+        url,
+        "_blank"
+    );
+
 }
+
+
+/* =====================================================
+   START EVERYTHING
+===================================================== */
+
+async function initShop(){
+
+    await Promise.all([
+        loadShopBanners(),
+        loadCategories(),
+        loadProducts()
+    ]);
+
+}
+
+
+initShop();
+
 </script>
 
 </body>
