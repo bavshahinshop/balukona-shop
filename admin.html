@@ -56,17 +56,47 @@ button{cursor:pointer}
 
 <div class="app" id="app">
   <aside class="sidebar">
-    <div class="sidebar-logo"><h2>Balukona Shop</h2><small>Administration</small></div>
-    <div class="menu">
-      <button class="active" data-section="dashboard">📊 Dashboard</button>
-      <button data-section="products">📦 Products</button>
-      <button data-section="categories">🗂️ Categories</button>
-      <button data-section="orders">🛒 Orders</button>
-      <button data-section="banners">🖼️ Banners</button>
-      <button data-section="settings">⚙️ Settings</button>
-    </div>
-    <div class="logout"><button class="btn btn-danger" id="logoutBtn">🚪 Logout</button></div>
-  </aside>
+
+  <div class="sidebar-logo">
+    <h2>Balukona Shop</h2>
+    <small>অ্যাডমিন প্যানেল</small>
+  </div>
+
+  <div class="menu">
+
+    <button class="active" data-section="dashboard">
+      📊 ড্যাশবোর্ড
+    </button>
+
+    <button data-section="products">
+      📦 পণ্যসমূহ
+    </button>
+
+    <button data-section="categories">
+      📁 ক্যাটাগরি
+    </button>
+
+    <button data-section="orders">
+      🛒 অর্ডারসমূহ
+    </button>
+
+    <button data-section="banners">
+      🖼️ ব্যানার
+    </button>
+
+    <button data-section="settings">
+      ⚙️ সেটিংস
+    </button>
+
+  </div>
+
+  <div class="logout">
+    <button class="btn btn-danger" id="logoutBtn">
+      🚪 লগআউট
+    </button>
+  </div>
+
+</aside>
 
   <main class="main">
     <div class="topbar"><h2 id="pageTitle">Dashboard</h2><div class="user-info" id="userEmail"></div></div>
