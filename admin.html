@@ -4285,6 +4285,471 @@ window.editProduct =
     }
 
   };
+  <!-- =========================================================
+     CATEGORY ICON SYSTEM
+     Add + Edit + Preview + Upload + Save
+     ========================================================= -->
+
+<style>
+  #categoryImageBox{
+    margin-top:14px;
+  }
+
+  #categoryImageBox label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:600;
+  }
+
+  #categoryImageFile{
+    width:100%;
+    padding:10px;
+    border:1px dashed #b8c7d9;
+    border-radius:9px;
+    background:#f8fafc;
+    box-sizing:border-box;
+  }
+
+  #categoryImagePreview{
+    margin-top:10px;
+  }
+
+  #categoryImagePreview img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid #d9e1ea;
+    display:block;
+  }
+
+  #categoryImagePreview small{
+    display:block;
+    margin-top:5px;
+    color:#777;
+  }
+</style>
+
+<script>
+(function(){
+
+  /* ==========================================
+     1. Category Modal-এ Image Upload যোগ
+     ========================================== */
+
+  const form = document.getElementById("categoryForm");
+
+  if(!form) return;
+
+  /* আগে থেকেই থাকলে আবার তৈরি করবে না */
+  if(!document.getElementById("categoryImageBox")){
+
+    const imageBox = document.createElement("div");
+
+    imageBox.id = "categoryImageBox";
+    imageBox.className = "form-group";
+
+    imageBox.innerHTML = `
+      <label>🖼️ ক্যাটাগরি আইকন / ছবি</label>
+
+      <input
+        type="file"
+        id="categoryImageFile"
+        accept="image/*"
+      >
+
+      <div id="categoryImagePreview"></div>
+    `;
+
+    /* Description-এর পরে বসাবে */
+    const description =
+      document.getElementById("categoryDescription");
+
+    if(description &&
+       description.parentElement){
+
+      description.parentElement.after(imageBox);
+
+    }else{
+
+      form.insertBefore(
+        imageBox,
+        form.querySelector(".modal-footer")
+      );
+
+    }
+  }
+
+
+  /* ==========================================
+     2. Hidden Image URL Field
+     ========================================== */
+
+  let imageUrlInput =
+    document.getElementById("categoryImageUrl");
+
+  if(!imageUrlInput){
+
+    imageUrlInput =
+      document.createElement("input");
+
+    imageUrlInput.type = "hidden";
+    imageUrlInput.id = "categoryImageUrl";
+
+    form.appendChild(imageUrlInput);
+  }
+
+
+  /* ==========================================
+     3. Image Preview
+     ========================================== */
+
+  const imageFile =
+    document.getElementById("categoryImageFile");
+
+  const preview =
+    document.getElementById("categoryImagePreview");
+
+
+  imageFile.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    if(!file){
+      preview.innerHTML = "";
+      return;
+    }
+
+    if(!file.type.startsWith("image/")){
+
+      alert("দয়া করে একটি ছবি নির্বাচন করুন।");
+
+      this.value = "";
+      preview.innerHTML = "";
+
+      return;
+    }
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function(e){
+
+      preview.innerHTML = `
+        <img src="${e.target.result}">
+        <small>নতুন ছবি নির্বাচিত হয়েছে</small>
+      `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+
+  /* ==========================================
+     4. Existing Category Edit করলে
+        পুরোনো Image দেখানো
+     ========================================== */
+
+  const oldEditCategory =
+    window.editCategory;
+
+  if(typeof oldEditCategory === "function"){
+
+    window.editCategory =
+      function(id){
+
+        oldEditCategory(id);
+
+        setTimeout(function(){
+
+          try{
+
+            const category =
+              (window.categories || [])
+              .find(c =>
+                String(c.id) === String(id)
+              );
+
+            if(category){
+
+              imageUrlInput.value =
+                category.image_url || "";
+
+              if(category.image_url){
+
+                preview.innerHTML = `
+                  <img src="${category.image_url}">
+                  <small>বর্তমান ক্যাটাগরি ছবি</small>
+                `;
+
+              }else{
+
+                preview.innerHTML = "";
+
+              }
+
+            }
+
+          }catch(error){
+
+            console.error(
+              "Category image preview error:",
+              error
+            );
+
+          }
+
+        },100);
+
+      };
+  }
+
+
+  /* ==========================================
+     5. New Category খুললে Image পরিষ্কার
+     ========================================== */
+
+  const oldOpenCategoryModal =
+    window.openCategoryModal;
+
+  if(typeof oldOpenCategoryModal === "function"){
+
+    window.openCategoryModal =
+      function(){
+
+        oldOpenCategoryModal();
+
+        setTimeout(function(){
+
+          imageFile.value = "";
+          imageUrlInput.value = "";
+          preview.innerHTML = "";
+
+        },50);
+
+      };
+  }
+
+
+  /* ==========================================
+     6. Image Upload Function
+     ========================================== */
+
+  async function uploadCategoryImage(file){
+
+    if(!file) return null;
+
+    const extension =
+      file.name.split(".").pop().toLowerCase();
+
+    const fileName =
+      "category-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2,8) +
+      "." +
+      extension;
+
+    /*
+      shop-images bucket ব্যবহার করা হচ্ছে।
+      আপনার Supabase Storage-এ এই bucket আছে।
+    */
+
+    const bucket = "shop-images";
+
+    const path =
+      "categories/" + fileName;
+
+
+    const { error:uploadError } =
+      await db.storage
+        .from(bucket)
+        .upload(
+          path,
+          file,
+          {
+            cacheControl:"3600",
+            upsert:false
+          }
+        );
+
+
+    if(uploadError){
+
+      console.error(uploadError);
+
+      throw new Error(
+        "Category image upload failed: " +
+        uploadError.message
+      );
+
+    }
+
+
+    const { data } =
+      db.storage
+        .from(bucket)
+        .getPublicUrl(path);
+
+
+    return data.publicUrl;
+  }
+
+
+  /* ==========================================
+     7. Form Submit-এর আগে Image Upload
+     ========================================== */
+
+  form.addEventListener(
+    "submit",
+    async function(e){
+
+      const file =
+        imageFile.files[0];
+
+      if(!file) return;
+
+      /*
+        Existing category save system
+        যেন duplicate submit না করে।
+      */
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const submitButton =
+        form.querySelector(
+          'button[type="submit"], .btn-primary'
+        );
+
+      if(submitButton){
+
+        submitButton.disabled = true;
+        submitButton.innerText =
+          "⏳ ছবি Upload হচ্ছে...";
+
+      }
+
+
+      try{
+
+        const url =
+          await uploadCategoryImage(file);
+
+        imageUrlInput.value = url;
+
+
+        /*
+          Form-এর ভিতরে image_url hidden field
+          নিশ্চিত করা হচ্ছে।
+        */
+
+        let hidden =
+          form.querySelector(
+            'input[name="image_url"]'
+          );
+
+        if(!hidden){
+
+          hidden =
+            document.createElement("input");
+
+          hidden.type = "hidden";
+          hidden.name = "image_url";
+
+          form.appendChild(hidden);
+        }
+
+        hidden.value = url;
+
+
+        /*
+          Upload সফল হলে আবার normal submit
+          চালানো হবে।
+        */
+
+        const newSubmit =
+          new Event(
+            "submit",
+            {
+              bubbles:true,
+              cancelable:true
+            }
+          );
+
+        /*
+          এই flag-এর মাধ্যমে
+          দ্বিতীয়বার upload হবে না।
+        */
+
+        form.dataset.imageUploaded = "yes";
+
+        form.dispatchEvent(newSubmit);
+
+
+      }catch(error){
+
+        console.error(error);
+
+        alert(
+          "ছবি Upload করা যায়নি।\n\n" +
+          error.message
+        );
+
+      }finally{
+
+        if(submitButton){
+
+          submitButton.disabled = false;
+          submitButton.innerText =
+            "💾 Category সংরক্ষণ";
+
+        }
+
+      }
+
+    },
+    true
+  );
+
+
+  /* ==========================================
+     8. Image ছাড়া Submit হলে
+        আগের Image URL ধরে রাখা
+     ========================================== */
+
+  form.addEventListener(
+    "submit",
+    function(){
+
+      if(
+        imageUrlInput.value &&
+        !document.querySelector(
+          'input[name="image_url"]'
+        )
+      ){
+
+        const hidden =
+          document.createElement("input");
+
+        hidden.type = "hidden";
+        hidden.name = "image_url";
+        hidden.value =
+          imageUrlInput.value;
+
+        form.appendChild(hidden);
+      }
+
+    }
+  );
+
+
+})();
+</script>
 </script>
 
 </body>
