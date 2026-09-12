@@ -339,17 +339,1020 @@ button{cursor:pointer}
   </div>
 </div>
 
-<!-- ==================== BANNER MODAL ==================== -->
+<!-- =========================================================
+     BALUKONA SHOP - BANNER SYSTEM
+     ========================================================= -->
 
-<div class="modal" id="bannerModal">
+<style>
+.bk-banner-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:rgba(0,0,0,.60);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-  <div class="modal-box">
+.bk-banner-modal.show{
+  display:flex;
+}
 
-    <div class="modal-header">
+.bk-banner-box{
+  width:100%;
+  max-width:950px;
+  max-height:94vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 20px 70px rgba(0,0,0,.25);
+}
+
+.bk-banner-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 24px;
+  border-bottom:1px solid #e5e7eb;
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:5;
+}
+
+.bk-banner-header h3{
+  margin:0;
+  color:#008f62;
+  font-size:22px;
+}
+
+.bk-banner-close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:#f1f3f5;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.bk-banner-body{
+  padding:24px;
+}
+
+.bk-banner-section{
+  border:1px solid #dbe3ea;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.bk-banner-title{
+  font-size:17px;
+  font-weight:700;
+  color:#087f5b;
+  padding-bottom:12px;
+  margin-bottom:18px;
+  border-bottom:1px solid #e9ecef;
+}
+
+.bk-banner-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.bk-banner-full{
+  grid-column:1 / -1;
+}
+
+.bk-banner-field label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:600;
+  color:#172033;
+}
+
+.bk-banner-field input,
+.bk-banner-field textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 13px;
+  border:1px solid #cfd8e3;
+  border-radius:9px;
+  background:#fff;
+  font-size:15px;
+  outline:none;
+}
+
+.bk-banner-field input:focus,
+.bk-banner-field textarea:focus{
+  border-color:#008f62;
+  box-shadow:0 0 0 3px rgba(0,143,98,.10);
+}
+
+.bk-banner-field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.bk-banner-upload{
+  border:2px dashed #c8d5e3;
+  border-radius:12px;
+  padding:18px;
+  background:#f8fafc;
+}
+
+.bk-banner-upload input[type=file]{
+  width:100%;
+  margin-top:8px;
+}
+
+.bk-banner-preview{
+  margin-top:14px;
+}
+
+.bk-banner-preview img{
+  display:block;
+  width:100%;
+  max-width:500px;
+  max-height:220px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.bk-banner-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:600;
+  padding:14px;
+  background:#f8fafc;
+  border:1px solid #dbe3ea;
+  border-radius:10px;
+}
+
+.bk-banner-check input{
+  width:18px;
+  height:18px;
+}
+
+.bk-banner-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:18px 24px;
+  border-top:1px solid #e5e7eb;
+  position:sticky;
+  bottom:0;
+  background:#fff;
+}
+
+.bk-banner-btn{
+  border:0;
+  border-radius:9px;
+  padding:12px 22px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.bk-banner-cancel{
+  background:#e9ecef;
+  color:#222;
+}
+
+.bk-banner-save{
+  background:#009f68;
+  color:#fff;
+}
+
+.bk-banner-save:hover{
+  background:#008457;
+}
+
+
+/* ================= BANNER TABLE ================= */
+
+.bk-banner-table-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+.bk-banner-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:750px;
+}
+
+.bk-banner-table th,
+.bk-banner-table td{
+  padding:13px 12px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  vertical-align:middle;
+}
+
+.bk-banner-table th{
+  background:#f5f7f9;
+  font-weight:700;
+}
+
+.bk-banner-table img{
+  width:110px;
+  height:55px;
+  object-fit:cover;
+  border-radius:7px;
+  border:1px solid #ddd;
+}
+
+.bk-banner-actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.bk-banner-action{
+  border:0;
+  border-radius:7px;
+  padding:7px 11px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.bk-edit{
+  background:#e7f0ff;
+  color:#155eef;
+}
+
+.bk-delete{
+  background:#ffe3e3;
+  color:#c92a2a;
+}
+
+.bk-toggle{
+  background:#fff3bf;
+  color:#8a6500;
+}
+
+.bk-active{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:20px;
+  background:#d3f9d8;
+  color:#087f23;
+  font-size:12px;
+  font-weight:700;
+}
+
+.bk-inactive{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:20px;
+  background:#ffe3e3;
+  color:#c92a2a;
+  font-size:12px;
+  font-weight:700;
+}
+
+@media(max-width:700px){
+
+  .bk-banner-modal{
+    padding:8px;
+  }
+
+  .bk-banner-body{
+    padding:14px;
+  }
+
+  .bk-banner-grid{
+    grid-template-columns:1fr;
+  }
+
+  .bk-banner-full{
+    grid-column:auto;
+  }
+
+}
+</style>
+
+
+<!-- =========================================================
+     BANNER MODAL
+     ========================================================= -->
+
+<div
+  class="bk-banner-modal"
+  id="bannerModal">
+
+  <div class="bk-banner-box">
+
+    <div class="bk-banner-header">
 
       <h3 id="bannerModalTitle">
         🖼️ নতুন Banner যোগ করুন
       </h3>
+
+      <button
+        type="button"
+        class="bk-banner-close"
+        onclick="closeModal('bannerModal')">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <form id="bannerForm">
+
+      <input
+        type="hidden"
+        id="bannerId">
+
+
+      <div class="bk-banner-body">
+
+
+        <!-- ================= BASIC ================= -->
+
+        <div class="bk-banner-section">
+
+          <div class="bk-banner-title">
+            📌 Banner Information
+          </div>
+
+
+          <div class="bk-banner-grid">
+
+
+            <div class="bk-banner-field bk-banner-full">
+
+              <label>
+                Banner Title
+              </label>
+
+              <input
+                type="text"
+                id="bannerTitle"
+                placeholder="যেমন: নতুন কালেকশন">
+
+            </div>
+
+
+            <div class="bk-banner-field bk-banner-full">
+
+              <label>
+                Subtitle
+              </label>
+
+              <textarea
+                id="bannerSubtitle"
+                placeholder="Banner-এর ছোট বর্ণনা লিখুন"></textarea>
+
+            </div>
+
+
+            <!-- Target Link -->
+
+            <div class="bk-banner-field">
+
+              <label>
+                টার্গেট লিংক (URL)
+              </label>
+
+              <input
+                type="text"
+                id="bannerButtonLink"
+                placeholder="যেমন: #products অথবা /products">
+
+            </div>
+
+
+            <!-- Priority -->
+
+            <div class="bk-banner-field">
+
+              <label>
+                সিরিয়াল
+              </label>
+
+              <input
+                type="number"
+                id="bannerPriority"
+                value="5"
+                min="1"
+                placeholder="5">
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= IMAGE ================= -->
+
+        <div class="bk-banner-section">
+
+          <div class="bk-banner-title">
+            🖼️ Slider-এর ছবি
+          </div>
+
+
+          <div class="bk-banner-upload">
+
+            <label>
+              Banner ছবি নির্বাচন করুন
+            </label>
+
+            <input
+              type="file"
+              id="bannerImageFile"
+              accept="image/*">
+
+
+            <div
+              class="bk-banner-preview"
+              id="bannerImagePreview">
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= BUTTON ================= -->
+
+        <div class="bk-banner-section">
+
+          <div class="bk-banner-title">
+            🔘 Button
+          </div>
+
+
+          <div class="bk-banner-grid">
+
+
+            <div class="bk-banner-field">
+
+              <label>
+                Button Text
+              </label>
+
+              <input
+                type="text"
+                id="bannerButtonText"
+                value="এখনই কিনুন"
+                placeholder="এখনই কিনুন">
+
+            </div>
+
+
+            <div>
+
+              <label class="bk-banner-check">
+
+                <input
+                  type="checkbox"
+                  id="bannerActive"
+                  checked>
+
+                🟢 Banner Active
+
+              </label>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- ================= FOOTER ================= -->
+
+      <div class="bk-banner-footer">
+
+        <button
+          type="button"
+          class="bk-banner-btn bk-banner-cancel"
+          onclick="closeModal('bannerModal')">
+
+          Cancel
+
+        </button>
+
+
+        <button
+          type="submit"
+          class="bk-banner-btn bk-banner-save">
+
+          💾 Save Banner
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   BANNER SYSTEM
+   ========================================================= */
+
+
+/* ================= IMAGE PREVIEW ================= */
+
+document
+  .getElementById("bannerImageFile")
+  .addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    const preview =
+      document.getElementById("bannerImagePreview");
+
+    preview.innerHTML = "";
+
+    if(!file) return;
+
+
+    if(!file.type.startsWith("image/")){
+
+      alert("শুধু Image File নির্বাচন করুন।");
+
+      this.value = "";
+
+      return;
+
+    }
+
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      URL.createObjectURL(file);
+
+    preview.appendChild(img);
+
+});
+
+
+/* ================= OPEN BANNER ================= */
+
+function openBannerModal(){
+
+  document
+    .getElementById("bannerForm")
+    .reset();
+
+
+  document
+    .getElementById("bannerId")
+    .value = "";
+
+
+  document
+    .getElementById("bannerPriority")
+    .value = "5";
+
+
+  document
+    .getElementById("bannerButtonText")
+    .value = "এখনই কিনুন";
+
+
+  document
+    .getElementById("bannerActive")
+    .checked = true;
+
+
+  document
+    .getElementById("bannerImagePreview")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("bannerModalTitle")
+    .textContent =
+      "🖼️ নতুন Banner যোগ করুন";
+
+
+  document
+    .getElementById("bannerModal")
+    .classList.add("show");
+
+}
+
+
+/* ================= SAVE BANNER ================= */
+
+document
+  .getElementById("bannerForm")
+  .addEventListener("submit",async function(e){
+
+    e.preventDefault();
+
+
+    const title =
+      document
+        .getElementById("bannerTitle")
+        .value
+        .trim();
+
+
+    const subtitle =
+      document
+        .getElementById("bannerSubtitle")
+        .value
+        .trim();
+
+
+    const buttonText =
+      document
+        .getElementById("bannerButtonText")
+        .value
+        .trim();
+
+
+    const buttonLink =
+      document
+        .getElementById("bannerButtonLink")
+        .value
+        .trim();
+
+
+    const active =
+      document
+        .getElementById("bannerActive")
+        .checked;
+
+
+    if(!title){
+
+      alert("Banner Title লিখুন।");
+
+      return;
+
+    }
+
+
+    let image_url = null;
+
+
+    /* ================= IMAGE UPLOAD ================= */
+
+    const file =
+      document
+        .getElementById("bannerImageFile")
+        .files[0];
+
+
+    if(file){
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const fileName =
+        "banners/" +
+        Date.now() +
+        "-" +
+        Math.random()
+          .toString(36)
+          .substring(2) +
+        "." +
+        extension;
+
+
+      const upload =
+        await db.storage
+          .from("product-images")
+          .upload(
+            fileName,
+            file,
+            {
+              upsert:false,
+              contentType:file.type
+            }
+          );
+
+
+      if(upload.error){
+
+        toast(
+          "Banner ছবি Upload হয়নি: " +
+          upload.error.message
+        );
+
+        return;
+
+      }
+
+
+      const publicUrl =
+        db.storage
+          .from("product-images")
+          .getPublicUrl(fileName);
+
+
+      image_url =
+        publicUrl.data.publicUrl;
+
+    }
+
+
+    /* ================= PAYLOAD ================= */
+
+    const payload = {
+
+      title:title,
+
+      subtitle:
+        subtitle || null,
+
+      image_url:
+        image_url,
+
+      button_text:
+        buttonText || null,
+
+      button_link:
+        buttonLink || null,
+
+      is_active:
+        active
+
+    };
+
+
+    /* ================= INSERT ================= */
+
+    const {error} =
+      await db
+        .from("banners")
+        .insert(payload);
+
+
+    if(error){
+
+      console.error(error);
+
+      toast(
+        "Banner Save হয়নি: " +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    closeModal("bannerModal");
+
+
+    toast(
+      "Banner সফলভাবে যোগ হয়েছে ✅"
+    );
+
+
+    await loadBanners();
+
+});
+
+
+/* =========================================================
+   LOAD BANNERS
+   ========================================================= */
+
+async function loadBanners(){
+
+  const {data,error} =
+    await db
+      .from("banners")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(error){
+
+    toast(error.message);
+
+    return;
+
+  }
+
+
+  const banners =
+    data || [];
+
+
+  const tbody =
+    document.getElementById("bannersTable");
+
+
+  if(!tbody) return;
+
+
+  if(!banners.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="6"
+            class="empty">
+          কোনো Banner নেই
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    banners.map(function(b){
+
+      return `
+        <tr>
+
+          <td>
+
+            ${
+              b.image_url
+              ? `
+                <img
+                  src="${escapeHtml(b.image_url)}"
+                  alt="Banner">
+              `
+              : "—"
+            }
+
+          </td>
+
+
+          <td>
+            ${escapeHtml(b.title || "")}
+          </td>
+
+
+          <td>
+            ${escapeHtml(b.subtitle || "")}
+          </td>
+
+
+          <td>
+            ${escapeHtml(b.button_text || "")}
+          </td>
+
+
+          <td>
+
+            ${
+              b.is_active
+              ? `
+                <span class="bk-active">
+                  ✓ Active
+                </span>
+              `
+              : `
+                <span class="bk-inactive">
+                  ✕ Inactive
+                </span>
+              `
+            }
+
+          </td>
+
+
+          <td>
+
+            <div class="bk-banner-actions">
+
+              <button
+                class="bk-banner-action bk-toggle"
+                onclick="toggleBanner('${b.id}',${!b.is_active})">
+
+                ${b.is_active ? "Inactive" : "Active"}
+
+              </button>
+
+
+              <button
+                class="bk-banner-action bk-delete"
+                onclick="deleteBanner('${b.id}')">
+
+                🗑️ Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* ================= TOGGLE ================= */
+
+async function toggleBanner(id,status){
+
+  const {error} =
+    await db
+      .from("banners")
+      .update({
+        is_active:status
+      })
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message);
+
+    return;
+
+  }
+
+
+  toast(
+    status
+    ? "Banner Active হয়েছে ✅"
+    : "Banner Inactive হয়েছে"
+  );
+
+
+  await loadBanners();
+
+}
+
+
+/* ================= DELETE ================= */
+
+async function deleteBanner(id){
+
+  if(
+    !confirm(
+      "এই Banner মুছে ফেলবেন?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const {error} =
+    await db
+      .from("banners")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message);
+
+    return;
+
+  }
+
+
+  toast(
+    "Banner মুছে ফেলা হয়েছে ✅"
+  );
+
+
+  await loadBanners();
+
+}
+
+</script>
 
       <button
         class="close"
